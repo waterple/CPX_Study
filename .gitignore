@@ -1,0 +1,13 @@
+# 강의 자료 원본 (저작권 보호)
+data/
+
+# 임시 파일
+outputs/temp/
+
+# 스크립트
+scripts/
+
+# 시스템 파일
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPX 대비 정리본</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+      background: #f5f6fa;
+      color: #2c3e50;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .header {
+      background: linear-gradient(135deg, #2c3e50, #1a252f);
+      color: #fff;
+      width: 100%;
+      text-align: center;
+      padding: 32px 16px 24px;
+    }
+    .header h1 { font-size: 1.5rem; font-weight: 700; }
+    .header p { font-size: 0.85rem; opacity: 0.8; margin-top: 4px; }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      padding: 20px 16px;
+    }
+    .list-item {
+      display: block;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      padding: 18px 20px;
+      margin-bottom: 12px;
+      text-decoration: none;
+      color: #2c3e50;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .list-item:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+    .list-item .date { font-size: 1.1rem; font-weight: 700; }
+    .list-item .desc { font-size: 0.85rem; color: #7f8c8d; margin-top: 4px; }
+    .empty { text-align: center; color: #7f8c8d; padding: 40px 16px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>CPX 대비 정리본</h1>
+    <p>본과 2학년 진료수행시험 대비</p>
+  </div>
+  <div class="container">
+    <a class="list-item" href="./2026-02-09/">
+      <div class="date">2026-02-09</div>
+      <div class="desc">근골격(요통) / 생식및여성(월경이상) / 소화기(구토) / 혈액및종양(멍이 쉽게 듦)</div>
+    </a>
+  </div>
+</body>
+</html>
