@@ -1,0 +1,2432 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CPX 대비 정리본 2026.02.10 (시험 직전)</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+
+:root {
+  --color-summary: #2c3e50;
+  --color-musculo: #3498db;
+  --color-repro: #e91e63;
+  --color-gastro: #27ae60;
+  --color-hemato: #9b59b6;
+  --bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --text: #2c3e50;
+  --text-muted: #7f8c8d;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --radius: 10px;
+}
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+html { font-size:16px; scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height:1.6;
+  min-height:100vh;
+}
+.app-header {
+  background: linear-gradient(135deg, var(--color-summary), #1a252f);
+  color:#fff;
+  text-align:center;
+  padding:18px 16px 12px;
+  font-size:1.25rem;
+  font-weight:700;
+  letter-spacing:0.5px;
+  position:sticky; top:0; z-index:100;
+}
+.app-header small { display:block; font-size:0.75rem; font-weight:400; opacity:0.8; margin-top:2px; }
+
+/* Tab Bar */
+.tab-bar {
+  display:flex;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  background:#fff;
+  border-bottom:2px solid #e0e0e0;
+  position:sticky; top:56px; z-index:99;
+  scrollbar-width:none;
+}
+.tab-bar::-webkit-scrollbar { display:none; }
+.tab-btn {
+  flex:0 0 auto;
+  padding:12px 18px;
+  font-size:0.85rem;
+  font-weight:600;
+  white-space:nowrap;
+  border:none;
+  background:transparent;
+  color:#666;
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  transition: color .2s, border-color .2s, background .2s;
+  min-height:44px;
+  min-width:44px;
+}
+.tab-btn:hover { background:#f8f9fa; }
+.tab-btn.active { color:var(--active-color, var(--color-summary)); border-bottom-color:var(--active-color, var(--color-summary)); background:rgba(0,0,0,0.03); }
+.tab-btn[data-tab="tab-summary"] { --active-color: var(--color-summary); }
+.tab-btn[data-tab="tab-musculoskeletal"] { --active-color: var(--color-musculo); }
+.tab-btn[data-tab="tab-reproductive"] { --active-color: var(--color-repro); }
+.tab-btn[data-tab="tab-gastrointestinal"] { --active-color: var(--color-gastro); }
+.tab-btn[data-tab="tab-hematology"] { --active-color: var(--color-hemato); }
+
+/* Tab content */
+.tab-content { display:none; max-width:800px; margin:0 auto; padding:12px; }
+.tab-content.active { display:block; }
+
+/* Cards */
+.card {
+  background:var(--card-bg);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin-bottom:14px;
+  overflow:hidden;
+}
+.card-header {
+  display:flex; align-items:center; gap:8px;
+  padding:14px 16px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  border-left:4px solid var(--section-color, var(--color-summary));
+  min-height:44px;
+  transition: background .15s;
+}
+.card-header:hover { background:#f8f9fa; }
+.card-icon { font-size:1.2rem; }
+.card-title { flex:1; font-weight:700; font-size:0.95rem; }
+.card-toggle { font-size:0.7rem; transition: transform .25s; color:#999; }
+.card-header.collapsed .card-toggle { transform:rotate(-90deg); }
+
+.card-body {
+  padding:0 16px 16px;
+  overflow:hidden;
+  transition: max-height .35s ease, padding .35s ease, opacity .25s ease;
+  opacity:1;
+}
+.card-body.collapsed {
+  max-height:0 !important;
+  padding-top:0; padding-bottom:0;
+  opacity:0;
+  overflow:hidden;
+}
+
+/* Section colors per tab */
+#tab-summary .card-header { border-left-color: var(--color-summary); }
+#tab-musculoskeletal .card-header { border-left-color: var(--color-musculo); }
+#tab-reproductive .card-header { border-left-color: var(--color-repro); }
+#tab-gastrointestinal .card-header { border-left-color: var(--color-gastro); }
+#tab-hematology .card-header { border-left-color: var(--color-hemato); }
+
+/* Tables */
+.table, table.exam-table, table.ddx-table { width:100%; border-collapse:collapse; margin:12px 0; font-size:0.88rem; }
+.table th, .table td, table.exam-table th, table.exam-table td, table.ddx-table th, table.ddx-table td {
+  padding:8px 10px; border:1px solid #e0e0e0; text-align:left; vertical-align:top;
+}
+.table th, table.exam-table th, table.ddx-table th { background:#f0f2f5; font-weight:700; font-size:0.82rem; }
+.table-highlight { background:#fff9e6; }
+.table-highlight td { font-weight:500; }
+
+/* Headings */
+h4 { font-size:1rem; font-weight:700; margin:16px 0 8px; padding-bottom:4px; border-bottom:1px solid #eee; }
+h5 { font-size:0.9rem; font-weight:700; margin:12px 0 6px; color:#555; }
+
+/* Lists */
+ol, ul { padding-left:1.5em; margin:6px 0; }
+li { margin-bottom:6px; font-size:0.9rem; }
+
+/* Badges */
+.badge, .badge-info, .badge-warning, .badge-danger, .badge-purpose, .badge-secondary {
+  display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.72rem; font-weight:600; vertical-align:middle;
+}
+.badge-info, .badge.badge-info { background:#e3f2fd; color:#1565c0; }
+.badge-warning, .badge.badge-warning { background:#fff3e0; color:#e65100; }
+.badge-danger, .badge.badge-danger { background:#fce4ec; color:#c62828; }
+.badge-secondary, .badge.badge-secondary { background:#f5f5f5; color:#666; }
+.badge-purpose { background:#f3e5f5; color:#7b1fa2; font-size:0.75rem; display:inline-block; padding:2px 8px; border-radius:4px; margin-top:2px; }
+
+/* Alerts */
+.alert { padding:12px 14px; border-radius:8px; margin:10px 0; font-size:0.88rem; line-height:1.5; }
+.alert-info, .info-box { background:#e8f4fd; border-left:4px solid #2196f3; }
+.alert-warning { background:#fff8e1; border-left:4px solid #ff9800; }
+.alert-danger { background:#fde8e8; border-left:4px solid #e53935; }
+.alert-success, .treatment-box { background:#e8f5e9; border-left:4px solid #43a047; padding:12px 14px; border-radius:8px; margin:10px 0; font-size:0.88rem; }
+.alert-primary { background:#e3f2fd; border-left:4px solid #1976d2; }
+.alert-secondary { background:#f5f5f5; border-left:4px solid #9e9e9e; }
+.info-box, .treatment-box { padding:12px 14px; border-radius:8px; margin:10px 0; font-size:0.88rem; }
+.education-section { margin:10px 0; }
+
+/* Script box */
+.script-box { background:#f8f9fa; border-left:3px solid #90a4ae; padding:12px 14px; margin:8px 0; border-radius:0 8px 8px 0; font-size:0.88rem; }
+.script-box p { margin-bottom:8px; }
+.warning-box { border-left-color:#e53935; background:#fff5f5; }
+
+/* Text helpers */
+.text-muted { color:var(--text-muted); font-size:0.82rem; }
+.text-danger { color:#c62828; }
+.text-primary { color:#1565c0; }
+
+/* Checklist */
+.checklist-label {
+  display:flex; align-items:flex-start; gap:10px;
+  padding:10px 12px; margin:3px 0;
+  background:#fafafa; border-radius:6px;
+  cursor:pointer; font-size:0.88rem; line-height:1.5;
+  transition: background .15s, opacity .15s;
+  min-height:44px;
+}
+.checklist-label:hover { background:#f0f0f0; }
+.checklist-item {
+  flex-shrink:0;
+  width:22px; height:22px;
+  margin-top:1px;
+  accent-color: var(--check-color, #2c3e50);
+  cursor:pointer;
+}
+.checklist-label.checked { text-decoration:line-through; opacity:0.55; background:#f5f5f5; }
+.checklist-group { margin:6px 0; }
+
+#tab-musculoskeletal .checklist-item { accent-color: var(--color-musculo); }
+#tab-reproductive .checklist-item { accent-color: var(--color-repro); }
+#tab-gastrointestinal .checklist-item { accent-color: var(--color-gastro); }
+#tab-hematology .checklist-item { accent-color: var(--color-hemato); }
+#tab-summary .checklist-item { accent-color: var(--color-summary); }
+
+/* Reset button */
+.reset-btn {
+  display:inline-block; padding:6px 14px;
+  font-size:0.8rem; font-weight:600;
+  border:1px solid #ccc; border-radius:6px;
+  background:#fff; color:#666;
+  cursor:pointer; margin:8px 0;
+  min-height:36px;
+  transition: background .15s;
+}
+.reset-btn:hover { background:#f0f0f0; }
+
+/* Mermaid */
+.mermaid { margin:12px 0; overflow-x:auto; background:#fafafa; padding:8px; border-radius:8px; }
+.mermaid svg { max-width:100%; height:auto; }
+
+/* Summary page specifics */
+.summary-section { margin-bottom:20px; }
+.quick-ref { background:#fff; border-radius:var(--radius); box-shadow:var(--shadow); padding:14px 16px; margin:8px 0; }
+.quick-ref h5 { margin-top:0; }
+.quick-ref-musculo h5 { color: var(--color-musculo); }
+.quick-ref-repro h5 { color: var(--color-repro); }
+.quick-ref-gastro h5 { color: var(--color-gastro); }
+.quick-ref-hemato h5 { color: var(--color-hemato); }
+
+.time-flow { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+.time-block {
+  flex:1 1 150px; padding:12px; border-radius:8px; text-align:center;
+  font-weight:600; font-size:0.88rem;
+}
+.time-block.tb1 { background:#e3f2fd; color:#1565c0; }
+.time-block.tb2 { background:#e8f5e9; color:#2e7d32; }
+.time-block.tb3 { background:#fff3e0; color:#e65100; }
+
+/* mark tag */
+mark { background:#fff176; padding:1px 4px; border-radius:3px; }
+
+hr { border:none; border-top:1px solid #e0e0e0; margin:12px 0; }
+
+/* Print - not needed but basic reset */
+@media print { .tab-bar, .app-header { position:static; } }
+
+/* Responsive */
+@media (max-width:600px) {
+  .app-header { font-size:1.1rem; padding:14px 12px 10px; }
+  .tab-btn { padding:10px 14px; font-size:0.8rem; }
+  .card-header { padding:12px 14px; }
+  .card-body { padding:0 14px 14px; }
+  h4 { font-size:0.95rem; }
+  .table th, .table td, table.exam-table th, table.exam-table td, table.ddx-table th, table.ddx-table td { padding:6px 8px; font-size:0.82rem; }
+}
+
+  </style>
+</head>
+<body>
+<header class="app-header">CPX 대비 정리본 (시험 직전)<small>2026.02.10 &mdash; 시나리오 기반 실전 최적화</small></header>
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="tab-summary">종합 정리</button>
+  <button class="tab-btn" data-tab="tab-gastrointestinal">소화기 - 구토</button>
+  <button class="tab-btn" data-tab="tab-musculoskeletal">근골격 - 요통</button>
+  <button class="tab-btn" data-tab="tab-reproductive">생식및여성 - 질출혈</button>
+  <button class="tab-btn" data-tab="tab-hematology">혈액및종양 - 멍듦</button>
+</nav>
+<main>
+<div id="tab-summary" class="tab-content active">
+
+<!-- 카드 1: 시험 직전 모드 안내 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F3AF;</span>
+    <span class="card-title">시험 직전 모드 안내</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-danger">&#9733; 시나리오.pdf 기반 실전 최적화 정리본입니다 &#9733;</div>
+
+    <h4>CPX 진행 순서</h4>
+    <ol>
+      <li><strong>시험실 입장 전</strong> &mdash; 기본적인 환자 정보, Vital Sign, 주호소 확인</li>
+      <li><strong>시험실 입장 후 (10-12분)</strong> &mdash; 환자 문진 및 신체 진찰 수행. 질병과 과목을 직접 판단.</li>
+      <li><strong>설명</strong> &mdash; 예상 진단명, 필요 검사, 치료계획을 모의환자에게 설명</li>
+      <li><strong>시험실 퇴장 후</strong> &mdash; 예상 질병 2가지 + 치료계획 4가지 입력</li>
+      <li><strong>다음 시험실로 이동</strong> &mdash; 총 3개 시험실 입장 후 시험 종료</li>
+    </ol>
+
+    <h4>시간 배분 권장안</h4>
+    <div class="time-flow">
+      <div class="time-block tb1"><div>병력청취</div><div>7-8분</div></div>
+      <div class="time-block tb2"><div>신체진찰</div><div>2-3분</div></div>
+      <div class="time-block tb3"><div>설명+교육</div><div>남은 2분</div></div>
+    </div>
+    <p style="font-size:0.85rem; color:#666; margin-top:8px;">* 병력청취 + 신체진찰 = 약 10분, 이후 남은 시간에 진단/검사/치료/교육 설명</p>
+  </div>
+</div>
+
+<!-- 카드 2: 각 과목 시나리오 요약 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x26A1;</span>
+    <span class="card-title">각 과목 시나리오 요약</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <div class="quick-ref quick-ref-gastro">
+      <h5>&#x1F922; 소화기 - 구토</h5>
+      <table class="exam-table">
+        <tr><td style="width:30%"><strong>환자</strong></td><td>박정자, 58세/F</td></tr>
+        <tr class="table-highlight"><td><strong>V/S</strong></td><td><strong>비정상</strong> &mdash; PR 100 (빈맥), RR 24 (빈호흡), BP 100/60 (저혈압)</td></tr>
+        <tr><td><strong>핵심 단서</strong></td><td>식후 1-2시간 비담즙성 미소화 구토 + NSAIDs 복용 + 토혈 + 2개월 10kg 체중감소</td></tr>
+        <tr class="table-highlight"><td><strong>진단</strong></td><td>위 배출구 폐쇄 (GOO) / NSAIDs 상부 위장관 출혈</td></tr>
+      </table>
+    </div>
+
+    <div class="quick-ref quick-ref-musculo">
+      <h5>&#x1F9B4; 근골격 - 요통</h5>
+      <table class="exam-table">
+        <tr><td style="width:30%"><strong>환자</strong></td><td>NN세/F, 시장에서 반찬 장사</td></tr>
+        <tr><td><strong>V/S</strong></td><td>정상</td></tr>
+        <tr><td><strong>핵심 단서</strong></td><td>숙이면 괜찮고 <strong>펴면 아프다</strong> + 조조강직(-) + 야간통(-) + 오래 걸으면 다리 저림</td></tr>
+        <tr class="table-highlight"><td><strong>진단</strong></td><td>척추관 협착증 (Spinal Stenosis)</td></tr>
+      </table>
+    </div>
+
+    <div class="quick-ref quick-ref-repro">
+      <h5>&#x1F469;&#x200D;&#x2695;&#xFE0F; 생식및여성 - 질출혈</h5>
+      <table class="exam-table">
+        <tr><td style="width:30%"><strong>환자</strong></td><td>김사월, 43세/F</td></tr>
+        <tr><td><strong>V/S</strong></td><td>정상 (BP 120/70, PR 88)</td></tr>
+        <tr><td><strong>핵심 단서</strong></td><td>폐경 이행기 + 질출혈 + 하복부 팽만감 + 생리 불규칙</td></tr>
+        <tr class="table-highlight"><td><strong>진단</strong></td><td>자궁근종 (Uterine Myoma) / 폐경 이행기</td></tr>
+      </table>
+    </div>
+
+    <div class="quick-ref quick-ref-hemato">
+      <h5>&#x1FA78; 혈액및종양 - 멍듦</h5>
+      <table class="exam-table">
+        <tr><td style="width:30%"><strong>환자</strong></td><td>3N세/F (30대 여성)</td></tr>
+        <tr><td><strong>V/S</strong></td><td>정상</td></tr>
+        <tr><td><strong>핵심 단서</strong></td><td>감기 1주 전 &rarr; 이후 자발성 멍 (외상력 없음)</td></tr>
+        <tr class="table-highlight"><td><strong>진단</strong></td><td>ITP (특발성혈소판감소자반병)</td></tr>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 3: 공통 평가항목 체크리스트 (시나리오.pdf p1 기반) -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x2705;</span>
+    <span class="card-title">공통 평가항목 체크리스트</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-info">시나리오.pdf 1페이지 공통 평가항목 기반. 모든 CASE에 공통 적용됩니다.</div>
+
+    <h5>면담 시작</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-1"> 자기소개 (인사, 신분, 이름)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-2"> 일상대화로 긴장/두려움 감소</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-3"> 환자정보 확인 (성함, 생년월일)</label>
+
+    <h5>문진 태도</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-4"> 질문을 한번에 한 가지씩</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-5"> 환자 말을 가로채지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-6"> 적절한 진료 속도</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-7"> 경청 태도 (눈맞춤, 적정 거리, 바른 자세, 단정한 복장)</label>
+
+    <h5>요약 및 확인</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-8"> 진료 중반 이후 환자 상태 전반적 요약</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-9"> 요약 후 정확한지 / 더 추가할 사항 있는지 확인</label>
+
+    <h5>설명 및 교육</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-10"> 이해하기 힘든 용어 사용하지 않기 (오심, 통증의 양상, 변의 성상 등)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-11"> 환자의 걱정과 감정에 공감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-12"> 진단/검사에 대한 알기 쉬운 설명</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-13"> 설명 이해 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-14"> 추가 질문/궁금한 점 있는지 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-15"> 치료계획 세울 때 환자 의견 확인</label>
+
+    <h5>신체진찰</h5>
+    <label class="checklist-label" style="background:#fde8e8;"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-16"> &#9733; 손소독제 사용 (진찰 전 또는 후, 반드시 종료 직전!)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-17"> 신체진찰 시 불편/불쾌하지 않도록 배려 (노출 양해, 시트 덮기, 도와주기)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-18"> 신체진찰 전 시행할 진찰 설명 (어떤 진찰을, 왜, 어떻게)</label>
+
+    <h5>전반적 인상</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-19"> 의학적 자신감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-20"> 신뢰감 전달</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="summary" data-id="v2-comm-21"> 다음에도 이 의사에게 진료받고 싶은 인상</label>
+
+    <button class="reset-btn" onclick="resetChecklist('summary')">전체 초기화</button>
+  </div>
+</div>
+
+<!-- 카드 4: 진료를 여는 말 예시 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4AC;</span>
+    <span class="card-title">진료를 여는 말 예시</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="script-box">
+      <p><strong>1st: 자기소개</strong></p>
+      <p>"안녕하세요. 저는 오늘 진료를 맡은 학생 의사 OOO입니다. 지금부터 10분 정도 진료할 예정인데 괜찮으신가요?"</p>
+    </div>
+    <div class="script-box">
+      <p><strong>2nd: 환자정보 확인</strong></p>
+      <p>"환자분 성함, 생년월일 확인하겠습니다." (확인 후) "네 확인되었습니다."</p>
+    </div>
+    <div class="script-box">
+      <p><strong>일상대화 (긴장 완화)</strong></p>
+      <p>"날이 추운데 오시느라 수고 많으셨어요. 병원에 오면 긴장되실 수도 있는데 편하게 말씀해주시면 제가 하나씩 여쭤볼게요."</p>
+    </div>
+    <div class="script-box">
+      <p><strong>C/C 확인</strong></p>
+      <p>"오늘 어디가 불편해서 병원에 오셨어요?"</p>
+    </div>
+  </div>
+</div>
+
+<!-- 카드 5: 퇴장 후 입력 요약 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4DD;</span>
+    <span class="card-title">퇴장 후 입력 요약 (4 CASE)</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-warning">시험실 퇴장 후 입력: 예상 질병 2가지 + 치료계획 4가지</div>
+
+    <table class="exam-table">
+      <tr>
+        <th style="width:15%">과목</th>
+        <th style="width:30%">예상 질병 2가지</th>
+        <th style="width:55%">치료계획 4가지</th>
+      </tr>
+      <tr style="border-left:4px solid var(--color-gastro);">
+        <td><strong style="color:var(--color-gastro);">소화기</strong><br>구토</td>
+        <td>1. 위 배출구 폐쇄 (GOO)<br>2. NSAIDs 상부 위장관 출혈</td>
+        <td>1. NSAIDs 중단/용량 조절<br>2. PPI (양성자펌프억제제) 투여<br>3. 위내시경 (위석 제거/지혈술)<br>4. 수액 치료 (탈수 교정)</td>
+      </tr>
+      <tr style="border-left:4px solid var(--color-musculo);">
+        <td><strong style="color:var(--color-musculo);">근골격</strong><br>요통</td>
+        <td>1. 척추관 협착증<br>2. 후관절증후군 (or HNP)</td>
+        <td>1. X-ray 촬영 (요추 AP/Lat)<br>2. 혈액검사 (CBC, ESR, CRP)<br>3. NSAIDs 처방<br>4. 생활습관 교육 (과신전 회피, 중간 휴식)</td>
+      </tr>
+      <tr style="border-left:4px solid var(--color-repro);">
+        <td><strong style="color:var(--color-repro);">생식및여성</strong><br>질출혈</td>
+        <td>1. 자궁근종 (Myoma)<br>2. DUB (or 내막증식증)</td>
+        <td>1. 호르몬검사 (FSH, LH, E2, TSH, PRL)<br>2. 골반 초음파<br>3. CBC + 철분검사 (빈혈 평가)<br>4. 약물치료 (호르몬제) 또는 수술적 치료</td>
+      </tr>
+      <tr style="border-left:4px solid var(--color-hemato);">
+        <td><strong style="color:var(--color-hemato);">혈액및종양</strong><br>멍듦</td>
+        <td>1. ITP (특발성혈소판감소자반병)<br>2. 약물유발 (or 혈관염)</td>
+        <td>1. CBC 혈액검사 시행<br>2. 간/신장 기능검사<br>3. 스테로이드 투여 (Prednisolone)<br>4. 이상 출혈 시 즉시 내원 교육</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+</div>
+<div id="tab-gastrointestinal" class="tab-content">
+<!-- ==================== 카드 1: 시나리오 정보 ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4CB;</span>
+    <span class="card-title">시나리오 정보</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <table class="exam-table">
+      <tr><th colspan="2">환자 정보</th></tr>
+      <tr><td>이름</td><td><strong>박정자</strong></td></tr>
+      <tr><td>나이 / 성별</td><td><strong>58세 / 여성</strong></td></tr>
+      <tr><td>주호소 (C/C)</td><td><strong>구토</strong></td></tr>
+    </table>
+
+    <table class="exam-table" style="margin-top:12px;">
+      <tr><th colspan="2">활력증후 (Vital Signs)</th></tr>
+      <tr><td>체온 (BT)</td><td>36.5 &deg;C</td></tr>
+      <tr class="table-highlight"><td>맥박 (PR)</td><td><strong>100회/분</strong> (빈맥)</td></tr>
+      <tr class="table-highlight"><td>호흡 (RR)</td><td><strong>24회/분</strong> (빈호흡)</td></tr>
+      <tr class="table-highlight"><td>혈압 (BP)</td><td><strong>100/60 mmHg</strong> (저혈압 경향)</td></tr>
+    </table>
+
+    <div class="alert alert-warning">&#9888;&#65039; V/S 해석: 빈맥 + 빈호흡 + 저혈압 경향 &rarr; 탈수 또는 출혈에 의한 순환혈액량 감소 가능성</div>
+
+    <table class="exam-table" style="margin-top:12px;">
+      <tr><th colspan="2">진단</th></tr>
+      <tr class="table-highlight"><td>주진단 1</td><td><strong>위석에 의한 위 배출구 폐쇄 (Gastric outlet obstruction)</strong></td></tr>
+      <tr class="table-highlight"><td>주진단 2</td><td><strong>NSAIDs 복용에 의한 상부 위장관 출혈 (Upper GI bleeding)</strong></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 카드 2: 문진 흐름 (모의대본) ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F50D;</span>
+    <span class="card-title">문진 흐름 (모의대본)</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>문진 흐름도</h4>
+    <div class="mermaid">
+graph TD
+  A["인사 및 자기소개<br>환자정보 확인"] --> B["C/C 확인<br>구토 주호소"]
+  B --> C["발병시기 Onset<br>급성 vs 만성"]
+  C --> D["공감 표현 후<br>공복 vs 식후 구토"]
+  D --> E["식후 구토 시점<br>직후 vs 1-2시간 후"]
+  E --> F["구토량 확인"]
+  F --> G["토사물 색깔<br>담즙 포함 여부"]
+  G --> H["토사물 성상<br>소화 여부 확인"]
+  H --> I["중간 요약 및<br>이해 확인"]
+  I --> J["객혈 여부<br>피 토한 적 있는지"]
+  J --> K["어지러움 확인<br>출혈량 평가"]
+  K --> L["체중변화 확인<br>암 감별 핵심"]
+  L --> M["가족력 확인"]
+  M --> N["현재 앓는 질환<br>과거력"]
+  N --> O["복용 약물 확인<br>NSAIDs 핵심"]
+  O --> P["건강검진 이력<br>위내시경 시기"]
+  P --> Q["최종 요약 및<br>추가 질문 확인"]
+  Q --> R["신체진찰 전환"]
+  J -->|"객혈 있음"| J1["출혈량 평가<br>NSAIDs 출혈 의심"]
+  J -->|"객혈 없음"| K
+  L -->|"2개월 10kg 감소"| L1["암 가능성<br>반드시 확인"]
+    </div>
+
+    <h4 style="margin-top:20px;">대화 스크립트</h4>
+
+    <h5>1단계: 진료 시작 (인사 및 환자 확인)</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 안녕하세요. 저는 오늘 진료를 맡은 학생 의사 OOO입니다. 지금부터 10분 정도 진료할 예정인데 괜찮으신가요? <span class="badge-info">자기소개</span></p>
+      <p><strong>의:</strong> 환자분 성함, 생년월일 확인하겠습니다. (확인 후) 네 확인되었습니다. <span class="badge-info">환자정보 확인</span></p>
+      <p><strong>의:</strong> 날이 추운데 오시느라 수고 많으셨어요. 병원에 오면 긴장되실 수도 있는데 편하게 말씀해주시면 제가 하나씩 여쭤볼게요. <span class="badge-info">일상대화 / 긴장 완화</span></p>
+    </div>
+
+    <h5>2단계: 주호소 및 구토 양상 확인</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 오늘 어디가 불편해서 병원에 오셨어요? <span class="badge-info">C/C 확인</span></p>
+      <p>환: 자꾸 토를 해서요.</p>
+      <p><strong>의:</strong> 아 구토를 하셨다고요? 혹시 언제부터 구토를 하셨나요? <span class="badge-info">Onset: 급성 vs 만성</span></p>
+      <p>환: 1주일 전부터요. (급성) / 1주일 이상 되었어요. (만성)</p>
+      <p><strong>의:</strong> 아, ~부터 구토를 하셨으면 매우 불편하셨을 거 같아요. 구토를 하게 되는 상황에 대해서 좀 더 여쭤볼게요. 공복 상태에서도 구토를 하셨나요? 아니면, 식후 구토를 하셨나요? <span class="badge-info">공감 + 공복/식후 구분</span></p>
+      <p>환: 식사 후에 주로 구토를 했어요.</p>
+      <p><strong>의:</strong> 식사 후에 구토를 하셨다 말씀하셨는데, 식사 직후 토하셨을까요? 아니면 식사 후 몇 시간 지나서 토하셨나요? <span class="badge-info">식후 구토 시점</span></p>
+      <p>환: 식사 후 1-2시간 즈음 구토했어요.</p>
+    </div>
+
+    <h5>3단계: 구토물 양상 확인</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 식사 후 구토 증상이 있었으면 식사하실 때마다 매우 불편하셨겠어요. 혹시 구토 양은 얼마나 되셨을까요? 예를 들어, 손바닥 양만했다든지 등으로 표현 가능하실까요? <span class="badge-info">구토량</span></p>
+      <p>환: ~~ 얼마 만했어요.</p>
+      <p><strong>의:</strong> 그렇군요. 많이 놀라셨을 거 같습니다. 혹시 토사물의 색깔은 기억나실까요? 초록색이라든지, 노란색이라든지 구체적으로 말씀 부탁드립니다. <span class="badge-info">토사물 색깔 - 담즙 포함 여부</span></p>
+      <p>환: 딱히 색을 띄지는 않았어요.</p>
+      <p><strong>의:</strong> 그렇군요. 혹시 그럼 토사물에서 음식물의 형태가 어땠을까요? 음식물이 소화되지 않은 채 모양 그대로 나왔나요? <span class="badge-info">토사물 성상 - 소화 여부</span></p>
+      <p>환: 네 그랬던 거 같습니다.</p>
+    </div>
+
+    <div class="alert alert-info">&#x1F4A1; 토사물 해석: 식후 1-2시간 + 비담즙성 + 미소화 음식물 &rarr; 위 배출구 폐쇄 가능성 시사</div>
+
+    <h5>4단계: 중간 요약</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금까지 말씀해본 거 잠깐 정리하면, 식사 후 1-2시간 그리고 소화되지 않은 토사물을 호소하셨는데요. 우리가 음식물이 식도에서 위를 거쳐서 장에서 소화가 되는데, 식사 후 2시간 정도면 보통은 음식물이 위에 있거든요. 그리고 아까 음식물이 그대로 나오셨다고 했는데, 이건 음식물을 잘게 쪼개는 저작 작용이 아직 일어나지 않았다는 의미거든요? 그래서 제가 생각하는 원인 질환이 있는데, 조금 더 확실히 알기 위해 추가적으로 몇 가지만 더 질문해보겠습니다. 혹시 지금까지 말씀드린 것 중에 이해 안 가시는 것이 있을까요? <span class="badge-info">중간 요약 + 이해 확인</span></p>
+      <p>환: 아뇨, 없습니다.</p>
+    </div>
+
+    <h5>5단계: 동반증상 및 위험신호 확인</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 네, 감사합니다. 구토를 하실 때 혹시 피도 같이 토하셨을까요? <span class="badge-info">객혈 여부 - 상부 GI 출혈</span></p>
+      <p>환: 약간 피를 가끔 토했어요.</p>
+      <p><strong>의:</strong> 피까지 토했다니 더 걱정이 되셨을 거 같아요. 그럼 그렇게 피를 토하고 나서 어지러운 증상은 없으셨을까요? <span class="badge-info">공감 + 어지러움 - 출혈량 평가</span></p>
+      <p>환: 어지럽거나 하지는 않았어요.</p>
+      <p><strong>의:</strong> 그렇다면 이렇게 계속 구토 증상을 겪으셨으면 식사를 못하셨을 거 같은데, 혹시 체중의 변화가 있으셨을까요? <span class="badge-info">체중변화 - 악성종양 감별</span></p>
+      <p>환: 좀 많이 빠졌어요. 2개월 동안 10kg 빠졌어요.</p>
+    </div>
+
+    <div class="alert alert-warning">&#9888;&#65039; 체중변화 2개월 10kg 감소 &rarr; 암 가능성 반드시 확인! 위내시경 필수</div>
+
+    <h5>6단계: 과거력, 약물, 가족력</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 단기간에 많이 빠지셨네요. 주변에서도 많이 걱정했겠어요. <span class="badge-info">공감</span></p>
+      <p>환: 네~</p>
+      <p><strong>의:</strong> 가족 중에 비슷한 증상을 호소하시는 분들이 계셨을까요? <span class="badge-info">가족력</span></p>
+      <p>환: ~~ 했어요.</p>
+      <p><strong>의:</strong> 그렇군요. 현재 앓고 계신 질환은 없으신가요? <span class="badge-info">Past medical Hx</span></p>
+      <p>환: ~~요.</p>
+      <p><strong>의:</strong> 혹시 복용 중인 약은 어떻게 되실까요? <span class="badge-info">복용 약물 - NSAIDs 핵심</span></p>
+      <p>환: 소염진통제요.</p>
+      <p><strong>의:</strong> 최근까지 계속 복용하셨고? <span class="badge-info">복용 기간 확인</span></p>
+    </div>
+
+    <div class="alert alert-warning">&#9888;&#65039; NSAIDs (소염진통제) 복용 확인 &rarr; 상부 위장관 출혈의 직접 원인. 반드시 확인할 것!</div>
+
+    <h5>7단계: 건강검진 및 위내시경 이력</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 그리고 환자분, 아까 보니까 연세가 58세시기도 하셔서 여쭤보는데, 혹시 최근에 건강검진 받으신 적 있으실까요? <span class="badge-info">건강검진 이력</span></p>
+      <p>환: 건강검진은 ~~에 받았어요.</p>
+      <p><strong>의:</strong> 그때 위내시경 검사를 하셨나요? <span class="badge-info">위내시경 시기 확인</span></p>
+      <p>환: 위내시경은 3년 전이 마지막이에요.</p>
+      <p><strong>의:</strong> 위내시경 주기가 2년인데, 2년을 넘으셔서 일단 오늘 위내시경 검진 예약을 해드릴게요. <span class="badge-info">위내시경 검진 예약 안내</span></p>
+    </div>
+
+    <h5>8단계: 최종 요약 및 신체진찰 전환</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 문진은 끝났고, 체중변화가 좀 큰 편이셔서 제가 신체검진까지 진행하려고 합니다. 혹시 검진 전에 지금까지 말씀드린 것 중에 궁금하신 거 있으실까요? <span class="badge-info">추가 질문 확인</span></p>
+      <p>환: ~~~</p>
+      <p><strong>의:</strong> 혹시 빠진 증상이나 더 하시고 싶은 말씀 있으세요? <span class="badge-info">추가 증상 확인</span></p>
+    </div>
+
+    <h5>요약 멘트 (시나리오별)</h5>
+    <div class="script-box" style="background:#fff8e1;">
+      <p><strong>[위 배출구 폐쇄인 경우]</strong></p>
+      <p><strong>의:</strong> 지금까지 말씀해주신 부분을 요약해보면, ~부터 드신 음식물이 그대로 나오는 구토가 반복되고 명치 쪽이 더부룩하며 최근에 ~한 음식을 많이 드셨고 과거에 ~이력이 있으시네요. 제가 이해한 게 맞을까요? <span class="badge-info">최종 요약</span></p>
+    </div>
+    <div class="script-box" style="background:#fce4ec; margin-top:8px;">
+      <p><strong>[NSAIDs 상부 위장관 출혈인 경우]</strong></p>
+      <p><strong>의:</strong> 지금까지 말씀해주신 부분을 요약해보면, ~부터 혈액 섞인 토를 하셨고 관절염 때문에 진통제를 복용하셨네요. 제가 이해한 게 맞을까요? <span class="badge-info">최종 요약</span></p>
+    </div>
+
+    <h4 style="margin-top:20px;">자가채점표 기반 추가 확인 항목</h4>
+    <table class="exam-table">
+      <tr><th>항목</th><th>질문 예시</th><th>목적</th></tr>
+      <tr><td>구역질 동반 여부</td><td>토하기 전에 속이 울렁거리는 느낌이 있었나요?</td><td>구역 동반 vs 사출성 구토 감별</td></tr>
+      <tr><td>사출성 여부</td><td>구토가 갑자기 세게 뿜어져 나오듯 했나요?</td><td>두개내압 상승 등 감별</td></tr>
+      <tr><td>눈 관찰</td><td>(시진으로) 눈 흰자위 색, 결막 확인</td><td>황달, 빈혈 확인</td></tr>
+      <tr><td>열</td><td>열이 나셨나요?</td><td>감염 감별</td></tr>
+      <tr><td>두통</td><td>머리가 아프셨나요?</td><td>두개내압 상승 감별</td></tr>
+      <tr><td>복통</td><td>배가 아프셨나요? 어디가 아프셨나요?</td><td>복부 질환 감별</td></tr>
+      <tr><td>설사</td><td>설사도 같이 하셨나요?</td><td>감염성 장염 감별</td></tr>
+      <tr><td>속쓰림/역류</td><td>속이 쓰리거나 신물이 올라오셨나요?</td><td>GERD, 위염 감별</td></tr>
+      <tr><td>소변색/대변색</td><td>소변이나 대변 색이 달라지지는 않았나요?</td><td>간담도 질환, 흑색변 확인</td></tr>
+      <tr><td>먹은 음식</td><td>최근에 특별히 드신 음식이 있으세요?</td><td>식중독 감별</td></tr>
+      <tr><td>수술력</td><td>이전에 수술받으신 적 있으세요?</td><td>유착 등 감별</td></tr>
+      <tr><td>임신 가능성</td><td>(가임기 여성) 마지막 생리일이 언제인가요?</td><td>임신 관련 구토 감별</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== 카드 3: 신체진찰 계획 ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1FA7A;</span>
+    <span class="card-title">신체진찰 계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <div class="alert alert-danger">&#9733; 신체진찰 시작 전 반드시 손소독제 사용 &#9733;</div>
+
+    <h4>신체진찰 전 안내 멘트</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> (손소독을 하며) 이제 신체진찰하겠습니다. 먼저 신발 벗고 베드 위에 누워주시고, 배에 긴장을 풀기 위해 무릎을 굽혀주세요. 윗옷을 배 전체가 보이게 올려주시고, 바지도 살짝만 내려주시면 감사하겠습니다. <span class="badge-info">자세 유도 + 복부 노출</span></p>
+      <p><strong>의:</strong> 혹시 아픈 부위가 있으실까요? 아픈 부위가 있으면, 해당 부분을 제일 마지막에 촉진해야 해서 여쭤봅니다. <span class="badge-info">통증 부위 확인</span></p>
+    </div>
+
+    <h4>진찰 순서: 시 &rarr; 청 &rarr; 타 &rarr; 촉</h4>
+
+    <h5>1. 시진 (Inspection)</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 눈으로 봤을 때는 큰 이상이 없으셔서, 이제 제가 손으로 두들기거나 만져보겠습니다. <span class="badge-info">시진 결과 설명</span></p>
+    </div>
+    <table class="exam-table">
+      <tr><th>관찰 항목</th><th>확인 내용</th></tr>
+      <tr><td>복부 전반</td><td>양쪽 균형, 팽만 여부, 상처, 수술 흉터</td></tr>
+      <tr><td>피부</td><td>색깔, 멍, 색소침착, Caput Medusae (간경화 시사)</td></tr>
+      <tr><td>눈</td><td>공막 황달, 결막 빈혈 (창백)</td></tr>
+    </table>
+
+    <h5>2. 청진 (Auscultation)</h5>
+    <table class="exam-table">
+      <tr><th>방법</th><th>확인 내용</th></tr>
+      <tr><td>다이아프램으로 4분면 청진</td><td>장음 평가: 정상 (5-10초 1회), 항진 (과다 연동), 소실 (2분간 무음)</td></tr>
+      <tr><td>벨로 대동맥/신동맥 부위</td><td>복부 잡음 (Abdominal bruit) 유무</td></tr>
+    </table>
+    <div class="alert alert-info">&#x1F4A1; 위 배출구 폐쇄 시: 장음 항진 (Hyperperistalsis), 보르보르기미 (저음 럼블) 가능</div>
+
+    <h5>3. 타진 (Percussion)</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 배꼽을 중심으로 4분면을 따라 제가 두들기겠습니다. 두들겼을 때 소리가 너무 과하게 탁하거나 울리는 소리가 아녀서 정상이시구요. <span class="badge-info">타진 결과 설명</span></p>
+    </div>
+    <table class="exam-table">
+      <tr><th>부위</th><th>정상 소견</th><th>이상 소견</th></tr>
+      <tr><td>복부 전반</td><td>팀파니 (공기)</td><td>둔탁음 (복수, 종괴)</td></tr>
+      <tr><td>간 크기 측정</td><td>약 10cm (MCL 따라)</td><td>간비대 시 10cm 초과</td></tr>
+    </table>
+
+    <h5>4. 촉진 (Palpation)</h5>
+    <div class="script-box">
+      <p><strong>의:</strong> 이제 제가 만졌다가 뗄 거예요. 눌렀을 때 또는 뗄 때 아프면 말씀해주세요. (눌렀다 뗄 때마다) 아프신가요? 아프신가요? <span class="badge-info">촉진 안내 + 반발 압통 확인</span></p>
+      <p><strong>의:</strong> 통증도 없으시고, 크게 덩이가 만져지지도 않습니다. <span class="badge-info">촉진 결과 설명</span></p>
+    </div>
+
+    <table class="exam-table">
+      <tr><th>단계</th><th>방법</th><th>목적</th></tr>
+      <tr><td><strong>Light Palpation</strong></td><td>손바닥 넓은 면으로 4분면 각각 부드럽게 촉진<br>한 부위 촉진 후 손을 떼고 다음 부위로 이동</td><td>압통, 근육저항, 표면 종괴 확인</td></tr>
+      <tr><td><strong>Deep Palpation</strong></td><td>양손 사용 (오른손 아래, 왼손 위)<br>4분면 각각 촉진</td><td>복부 내 종괴 유무, 종물 윤곽 확인</td></tr>
+      <tr><td><strong>장기 촉진</strong></td><td>간 (Liver), 신장 (Kidney), 비장 (Spleen)</td><td>종대 (Megaly) 여부 확인</td></tr>
+    </table>
+
+    <h5>간 촉진 방법</h5>
+    <table class="exam-table">
+      <tr><th>방법</th><th>설명</th></tr>
+      <tr><td>후방 지지법</td><td>왼손을 환자 등 뒤에, 오른손으로 아래쪽부터 늑골연 방향으로 촉진</td></tr>
+      <tr><td>양손 심부 촉진</td><td>양손으로 아래에서 위로 심부 촉진하며 간 하연 확인</td></tr>
+      <tr><td>Hooking Method</td><td>환자 머리 쪽에서 양손으로 아래에서 위로 당기며 촉진</td></tr>
+    </table>
+
+    <h4 style="margin-top:16px;">신체진찰 종료</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 신체진찰은 끝나셔서 옷을 다시 정리해주실 수 있나요? 감사합니다. 일어나셔서 다시 의자에 앉아보실게요. <span class="badge-info">종료 안내</span></p>
+    </div>
+
+    <div class="alert alert-danger">&#9733; 반드시 종료 직전 손소독제 사용 &#9733;</div>
+  </div>
+</div>
+
+<!-- ==================== 카드 4: 감별진단 및 검사/치료 ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F3AF;</span>
+    <span class="card-title">감별진단 및 검사/치료계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>감별진단 (DDx)</h4>
+    <table class="exam-table">
+      <tr><th>진단명</th><th>핵심 단서</th><th>특이 소견</th></tr>
+      <tr class="table-highlight"><td><strong>위석에 의한 위 배출구 폐쇄<br>(Gastric outlet obstruction)</strong></td><td>식후 1-2시간 구토<br>비담즙성<br>미소화 음식물</td><td>음식물이 위에서 소장으로 못 내려감<br>체중감소 동반</td></tr>
+      <tr class="table-highlight"><td><strong>NSAIDs에 의한 상부 위장관 출혈<br>(Upper GI bleeding)</strong></td><td>소염진통제 복용력<br>토혈 (hematemesis)<br>빈맥, 저혈압</td><td>NSAIDs가 위점막 손상<br>프로스타글란딘 합성 억제</td></tr>
+      <tr><td>위암 (Gastric cancer)</td><td>58세 여성, 2개월 10kg 체중감소<br>위내시경 3년 미시행</td><td>고령 + 급격한 체중감소는 악성 R/O 필수</td></tr>
+      <tr><td>위궤양 (Gastric ulcer)</td><td>NSAIDs 복용<br>식후 통증</td><td>NSAIDs에 의한 궤양 합병</td></tr>
+      <tr><td>급성 위장염</td><td>오염 음식 섭취<br>구토 + 설사 + 발열</td><td>이 시나리오에서는 설사, 발열 없어 가능성 낮음</td></tr>
+      <tr><td>장폐색 (Bowel obstruction)</td><td>담즙성 구토<br>복통, 복부팽만</td><td>비담즙성이므로 하부 폐쇄보다 상부 가능</td></tr>
+    </table>
+
+    <h4 style="margin-top:16px;">필요 검사</h4>
+    <table class="exam-table">
+      <tr><th>검사</th><th>목적</th></tr>
+      <tr class="table-highlight"><td><strong>위내시경 (EGD)</strong></td><td>위 배출구 폐쇄 직접 확인, 위석 확인, 점막 병변 평가, 출혈 부위 확인, 조직검사 (악성 R/O)</td></tr>
+      <tr class="table-highlight"><td><strong>복부 X-ray</strong></td><td>장폐색 여부, 위 팽만 정도 확인, Air-fluid level</td></tr>
+      <tr><td>CBC</td><td>빈혈 여부 (출혈 평가), 감염 여부</td></tr>
+      <tr><td>전해질, BUN/Cr</td><td>탈수 및 전해질 이상 평가 (구토로 인한)</td></tr>
+      <tr><td>복부 CT</td><td>위 주변 종괴, 림프절 등 정밀 평가</td></tr>
+    </table>
+
+    <h4 style="margin-top:16px;">치료계획</h4>
+    <table class="exam-table">
+      <tr><th>치료</th><th>상세</th></tr>
+      <tr><td>NSAIDs 중단/조절</td><td>처방의와 상의하여 소염진통제 복용량 조절 또는 대체약 변경</td></tr>
+      <tr><td>위산분비 억제제</td><td>PPI (양성자펌프억제제) 투여 - 위점막 보호 및 출혈 치료</td></tr>
+      <tr><td>수액 치료</td><td>탈수 교정을 위한 정맥 수액 투여</td></tr>
+      <tr><td>위내시경적 치료</td><td>위석 제거, 출혈 부위 지혈술, 필요시 풍선 확장술</td></tr>
+    </table>
+
+    <h4 style="margin-top:16px;">퇴장 후 입력용</h4>
+    <div class="alert alert-warning" style="font-size:1.05em;">
+      <strong>질병 2가지:</strong><br>
+      1. 위석에 의한 위 배출구 폐쇄 (Gastric outlet obstruction by bezoar)<br>
+      2. NSAIDs 복용에 의한 상부 위장관 출혈 (NSAID-induced upper GI bleeding)<br><br>
+      <strong>치료 4가지:</strong><br>
+      1. NSAIDs 중단 또는 용량 조절 (처방의와 상의)<br>
+      2. PPI (양성자펌프억제제) 투여<br>
+      3. 위내시경적 치료 (위석 제거, 지혈술)<br>
+      4. 수액 치료 (탈수 교정)
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 카드 5: 환자 설명 및 교육 ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4AC;</span>
+    <span class="card-title">환자 설명 및 교육</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>진단/검사/치료 설명 멘트 (시나리오 대본 기반)</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 문진과 신체진찰 결과, 위에서 소장으로 이어지는 날문부가 폐쇄된 거 같습니다. <span class="badge-info">진단 설명</span></p>
+      <p><strong>의:</strong> 또한 약제 복용하시는 것 중에 NSAID에 의해서 약간 출혈도 있는 것 같습니다. <span class="badge-info">NSAIDs 출혈 설명</span></p>
+      <p><strong>의:</strong> 신체진찰 결과 복부 덩이가 만져지지는 않지만, 손으로 하는 검사는 한계가 있어서 복부 X-ray랑 아까 말씀드린 위내시경 검사가 필요해서 예약을 잡아드리겠습니다. <span class="badge-info">검사 필요성 설명</span></p>
+      <p><strong>의:</strong> 아직 정확히 진단된 것은 아니기 때문에 너무 걱정하실 필요는 없습니다. <span class="badge-info">안심 멘트</span></p>
+      <p><strong>의:</strong> 출혈이 심한 경우에는, 관절염 약을 처방해준 의사랑 복용량을 조절할 필요가 있어 보이네요. <span class="badge-info">약물 조절 안내</span></p>
+      <p><strong>의:</strong> 혹시 지금까지 제가 말씀드린 것에 궁금하신 거 있으실까요? <span class="badge-info">이해 확인</span></p>
+    </div>
+
+    <h4 style="margin-top:16px;">환자교육 핵심 내용</h4>
+    <table class="exam-table">
+      <tr><th>교육 항목</th><th>내용</th></tr>
+      <tr><td>위내시경 검진</td><td>위내시경 주기는 2년이며, 3년이 넘었으므로 반드시 검진 필요</td></tr>
+      <tr><td>NSAIDs 복용 주의</td><td>소염진통제는 위점막 손상을 유발할 수 있으므로, 처방의와 상의하여 용량 조절 또는 위장보호제 병용 필요</td></tr>
+      <tr><td>체중감소 관리</td><td>단기간 급격한 체중감소는 추가 정밀검사 필요한 상황</td></tr>
+      <tr><td>식이 지도</td><td>소화 잘 되는 부드러운 음식 위주, 소량씩 자주 식사</td></tr>
+      <tr><td>응급 상황 안내</td><td>대량 토혈, 흑색변, 심한 어지러움 시 즉시 응급실 방문</td></tr>
+    </table>
+
+    <h4 style="margin-top:16px;">설명 시 주의사항</h4>
+    <div class="alert alert-info">&#x1F4A1; 의료 용어를 피하고 쉬운 말로 설명할 것 (예: "오심" &rarr; "속 울렁거림", "통증의 양상" &rarr; "아픈 느낌", "변의 성상" &rarr; "대변 모양")</div>
+    <div class="alert alert-info">&#x1F4A1; 설명 후 "지금까지 제가 말씀드린 내용 이해하시나요?" 반드시 확인</div>
+    <div class="alert alert-info">&#x1F4A1; 향후 치료계획 세울 때 환자 의견 반드시 물어볼 것</div>
+
+    <div class="alert alert-danger">&#9733; 끝나고 손소독 &#9733;</div>
+  </div>
+</div>
+
+<!-- ==================== 카드 6: 자가채점 체크리스트 ==================== -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x2705;</span>
+    <span class="card-title">자가채점 체크리스트</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>병력청취 (History Taking)</h4>
+
+    <h5>구토에 대하여</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-1"> 발병시기 확인 (acute vs chronic)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-2"> 구토의 빈도와 횟수 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-3"> 구역질 동반 여부 / 사출성 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-4"> 토사물의 성상 확인 (소화 여부 / 담즙성 / 혈성)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-5"> 공복 vs 식후 구토 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-6"> 식후 구토 시점 확인 (직후 vs 1-2시간 후)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-7"> 구토량 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-8"> 토사물 색깔 확인 (담즙 포함 여부)</label>
+
+    <h5>동반증상</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-9"> 열 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-10"> 두통 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-11"> 어지러움 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-12"> 복통 확인 (있다면 성상과 구토와의 관계)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-13"> 설사 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-14"> 속쓰림 / 역류 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-15"> 소변색 / 대변색 변화 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-16"> 객혈 여부 확인 (토혈)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-17"> 체중변화 확인 (2개월 10kg 감소 - 암 감별)</label>
+
+    <h5>음식 및 과거력</h5>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-18"> 먹은 음식 확인 (식중독 감별)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-19"> 복용 약물 확인 (NSAIDs - 핵심)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-20"> 과거 질환 확인 (신장질환 / 당뇨 / 두부외상)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-21"> 수술력 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-22"> 임신 관련 확인 (LMP, 임신 가능성)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-23"> 가족력 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-hx-24"> 건강검진 / 위내시경 시기 확인</label>
+
+    <h4 style="margin-top:20px;">신체진찰 (Physical Examination)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-1"> 눈 관찰 (황달 / 빈혈 확인)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-2"> 경부 강직 소견 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-3"> 복부 시진 (팽만, 상처, 피부 변화)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-4"> 복부 청진 (장음 평가)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-5"> 복부 타진 (4분면)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-6"> Light palpation (4분면 표층 촉진)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-7"> Deep palpation (4분면 심부 촉진)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-8"> 간 촉진 (Liver palpation)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-9"> 반발 압통 확인 (Rebound tenderness)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-10"> 신체진찰 전 손소독</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-11"> 신체진찰 전 진찰 내용 설명 (무엇을, 왜, 어떻게)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-pe-12"> 환자 노출 시 양해 구하기 / 수치심 배려</label>
+
+    <h4 style="margin-top:20px;">환자교육 및 설명</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-1"> 예상 진단명 설명 (위 배출구 폐쇄 / NSAIDs 출혈)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-2"> 필요 검사 설명 (위내시경, 복부 X-ray)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-3"> 치료계획 설명 (NSAIDs 조절, 위내시경적 치료)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-4"> 위내시경 검진 예약 안내 (2년 주기 초과)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-5"> 안심 멘트 (아직 확진 아님, 너무 걱정 마세요)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-6"> 쉬운 용어 사용 (의료 용어 지양)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-7"> 설명 후 이해 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-edu-8"> 추가 궁금한 점 있는지 확인</label>
+
+    <h4 style="margin-top:20px;">의사소통 / 환자-의사 관계 (공통)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-1"> 진료 시작 시 자기소개 (인사, 신분, 이름)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-2"> 일상대화로 긴장 완화 (낯섦, 두려움 감소)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-3"> 질문을 한 번에 한 가지씩</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-4"> 환자 말 가로채지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-5"> 적절한 진료 속도 (말의 속도)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-6"> 경청 태도 (눈맞춤, 적정 거리, 바른 자세, 단정한 복장)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-7"> 진료 중반 이후 환자 상태 전반적 요약</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-8"> 요약 후 정확한지 / 추가 사항 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-9"> 이해하기 힘든 용어 사용하지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-10"> 환자의 걱정과 감정에 공감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-11"> 진단 가능성 / 검사에 대한 설명이 이해 가능했는지</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-12"> 설명 이해 여부 확인 질문</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-13"> 추가 질문 / 궁금한 점 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-14"> 향후 치료계획 세울 때 환자 의견 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-15"> 의학적 지식과 태도에서 자신감</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-16"> 신뢰감 있는 진료</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-17"> 신체진찰 전후 손소독제 사용</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-18"> 신체진찰 시 불편/불쾌하지 않도록 배려</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-19"> 신체진찰 전 시행할 진찰 설명 (무엇을, 왜, 어떻게)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="gastrointestinal" data-id="v2-gastro-comm-20"> 다음에도 이 의사에게 진료받고 싶다는 인상</label>
+
+    <div class="alert alert-danger" style="margin-top:16px;">&#9733; 반드시 종료 직전 손소독제 사용 &#9733;</div>
+  </div>
+</div>
+<button class="reset-btn" onclick="resetChecklist('gastrointestinal')">체크리스트 전체 초기화</button>
+</div>
+<div id="tab-musculoskeletal" class="tab-content">
+<!-- ==================== 근골격 - 요통 (척추관 협착증) ==================== -->
+
+<!-- 카드 1: 시나리오 정보 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4CB;</span>
+    <span class="card-title">시나리오 정보</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-danger">&#9733; Case 2 - 허리 통증 (척추관 협착증) &#9733;</div>
+
+    <table class="exam-table">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>환자</td><td>NN세 / 여성 (Female)</td></tr>
+      <tr><td>직업</td><td>시장에서 반찬 장사 (오래 쪼그려 앉는 자세)</td></tr>
+      <tr><td>주호소</td><td>허리 통증 (요통)</td></tr>
+      <tr><td>발병 시기</td><td>약 3년 전부터 서서히, 저저번 주부터 심해져 내원</td></tr>
+      <tr><td>통증 양상</td><td>묵직한 통증, NRS 4점</td></tr>
+      <tr class="table-highlight"><td>진단</td><td><strong>척추관 협착증 (Spinal Stenosis)</strong></td></tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>핵심 단서 (문진으로 파악)</strong><br>
+      &#8226; 장사하는 사람 (오래 쪼그려 앉는 직업)<br>
+      &#8226; 조조강직 (-) : 아침에 특별히 더 아프지 않음<br>
+      &#8226; 야간통 (-) : 밤에 자다가 깬 적 없음<br>
+      &#8226; 오전/오후 차이 없이 수시로 아픔<br>
+      &#8226; 허리를 숙이면 괜찮고, <strong>펴면 아픔</strong><br>
+      &#8226; 오래 걷거나 서 있으면 다리 저림 동반<br>
+      &#8594; <strong>비염증성(기계적) 통증 + 신전 시 악화 = 척추관 협착증</strong>
+    </div>
+
+    <div class="alert alert-info">
+      <strong>디스크(HNP)와의 감별 포인트</strong><br>
+      &#8226; 디스크: 허리를 <strong>숙이면</strong> 아프고, 앉으면 악화<br>
+      &#8226; 협착증: 허리를 <strong>펴면</strong> 아프고, 서거나 걸으면 악화, 숙이면 호전<br>
+      &#8594; 이 환자는 "숙이면 괜찮고 펴면 아프다" = <strong>협착증</strong>
+    </div>
+  </div>
+</div>
+
+<!-- 카드 2: 문진 흐름 (모의대본) -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4AC;</span>
+    <span class="card-title">문진 흐름 및 모의대본</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>문진 순서도</h4>
+    <div class="mermaid">
+graph TD
+  A["1. 주호소 확인<br>허리 어디가 아픈가요?<br>통증 부위 손가락으로 가리키기"] --> B["2. 통증 OPQRST<br>Onset Duration Location<br>Nature Severity"]
+  B --> C["3. 염증성 vs 비염증성 감별<br>조조강직 여부<br>야간통 여부<br>오전 오후 차이"]
+  C -->|"조조강직 없음<br>야간통 없음"| D["비염증성 기계적 통증<br>AS RA 가능성 낮음"]
+  C -->|"조조강직 있음<br>야간통 있음"| E["염증성 통증 의심<br>AS RA 등 감별 필요"]
+  D --> F["4. 자세 변화 시 통증<br>숙이면 vs 펴면<br>앉으면 vs 서면"]
+  F -->|"펴면 악화<br>서면 걸으면 악화"| G["척추관 협착증 의심<br>신경인성 파행 확인"]
+  F -->|"숙이면 악화<br>앉으면 악화"| H["디스크 HNP 의심<br>좌골신경통 확인"]
+  G --> I["5. 신경학적 증상 확인<br>방사통 하지저림<br>근력 감각 변화<br>대소변 장애"]
+  H --> I
+  I --> J["6. 내장기관 증상<br>발열 오심 체중감소<br>배뇨이상 복통"]
+  J --> K["7. 과거력 가족력<br>외상력 기존 질환<br>복용약 음주 흡연"]
+  K --> L["8. 중간 요약 후<br>신체진찰로 이행"]
+    </div>
+
+    <h4>Inflammatory vs Mechanical 감별 테이블</h4>
+    <table class="exam-table">
+      <tr><th>항목</th><th>염증성 (Inflammatory)</th><th>비염증성 (Mechanical)</th></tr>
+      <tr><td>발병</td><td>서서히 (Insidious)</td><td>갑자기 (Abrupt)</td></tr>
+      <tr><td>운동 시</td><td>호전</td><td>악화</td></tr>
+      <tr><td>휴식 시</td><td>악화</td><td>호전</td></tr>
+      <tr><td>조조강직</td><td>동반 (30분 이상)</td><td>없음 또는 단시간</td></tr>
+      <tr><td>야간통</td><td>새벽에 통증으로 깸</td><td>없음</td></tr>
+      <tr><td>시간대</td><td>아침에 심함</td><td>하루 중 비슷 또는 활동 후 악화</td></tr>
+      <tr class="table-highlight"><td>대표 질환</td><td>강직성 척추염 (AS)</td><td>디스크, 협착증, 후관절 증후군</td></tr>
+      <tr class="table-highlight"><td>이 환자</td><td colspan="2" style="text-align:center;"><strong>비염증성 (Mechanical)</strong> - 조조강직(-), 야간통(-), 시간대 무관</td></tr>
+    </table>
+
+    <h4>모의대본 (시나리오.pdf 기반)</h4>
+
+    <p><strong>[ STEP 1: 주호소 및 통증 위치 확인 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 오늘 어디가 불편해서 병원에 오셨어요? <span class="badge-info">C/C 확인</span></p>
+      <p>환: 허리가 아파서요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 허리가 아프시군요. 혹시 아프신 부분을 손가락 끝으로 가리켜 보시겠어요? <span class="badge-info">Location</span></p>
+      <p>환: (대충 등허리 가리킴)</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 등쪽을 가리키셨는데, 엉치뼈 위쪽 가운데가 아프신 것이 맞을까요?</p>
+      <p>환: 네 거기가 아파요.</p>
+    </div>
+
+    <p><strong>[ STEP 2: Onset / Duration ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 허리가 혹시 언제부터 아프셨을까요? <span class="badge-info">Onset/Duration</span></p>
+      <p>환: 3년 전부터 아팠다가, 저저번 주부터 너무 아파서 병원에 왔어요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 3년 전이면 꽤 오래 만성적으로 아프셨는데, 그때 처음 통증은 갑자기 나타나신 건가요? <span class="badge-info">Onset 양상</span></p>
+      <p>환: 네, 갑자기 나타났어요 // 아니요, 서서히 아팠던 거 같아요.</p>
+    </div>
+
+    <p><strong>[ STEP 3: Nature (통증 양상) ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 통증은 어떤 느낌인지 설명해주실 수 있으실까요? 예를 들어서 좀 묵직한 통증인지, 전기로 콕콕 찌르는 듯한 통증인지. <span class="badge-info">Nature</span></p>
+      <p>환: 잘은 모르겠는데 묵직한 통증인 거 같아요.</p>
+    </div>
+
+    <p><strong>[ STEP 4: 염증성 vs 비염증성 감별 - 핵심! ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 통증이 언제 심해지는지에 따라서 저희가 어떤 원인질환인지 알 수 있어서 여쭤볼게요. 혹시 통증이 오전이나 오후 중에 더 심한 시간대가 있나요? <span class="badge-info">조조강직 감별</span></p>
+      <p>환: 딱히 오전, 오후 더 심한 건 아닌 거 같아요. 수시로 아파요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 그럼 자다가 너무 아파서 밤에 깨신 적은 있으실까요? <span class="badge-info">야간통</span></p>
+      <p>환: 밤에 자다가 깬 적은 없어요.</p>
+    </div>
+
+    <div class="alert alert-warning">
+      <strong>감별 완료:</strong> 조조강직(-), 야간통(-), 시간대 무관 &#8594; <strong>비염증성(기계적) 통증</strong><br>
+      강직성 척추염(AS), 류마티스 관절염(RA) 가능성 낮음
+    </div>
+
+    <p><strong>[ STEP 5: Severity (NRS) ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 통증의 척도를 0에서 10점, 0은 아예 안 아프다, 10점은 아파서 죽을 것 같다로 했을 때 현재 느끼는 통증의 정도는 몇 점일까요? <span class="badge-info">NRS</span></p>
+      <p>환: 한 4점 정도 되는 거 같아요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 4점이면, 생활하는데는 좀 불편한 정도인데. 지금 앉아있는 것은 괜찮으신가요? <span class="badge-info">공감</span></p>
+      <p>환: 예 많이 좀 불편해요.</p>
+      <p><strong>의:</strong> 네 많이 힘드실 거 같아요.</p>
+    </div>
+
+    <p><strong>[ STEP 6: 직업력 및 자세 변화 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 실례지만, 직업이 어떻게 되실까요? 많이 앉아있거나 정자세로 있으신가요? <span class="badge-info">직업력</span></p>
+      <p>환: 시장에서 반찬장사하고 있어요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 반찬 장사하시면 오래 쪼그려 앉아있는 자세를 할 거 같은데 맞으실까요?</p>
+      <p>환: 네 맞아요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 특정 자세에서 더 아프거나 덜 아픈 때가 있나요? 허리를 숙일 때 더 아프다 또는 허리를 필 때 더 아프다 등으로요. <span class="badge-info">자세 변화 - 감별 핵심</span></p>
+      <p>환: 허리를 숙일 때는 괜찮은데, 피면 아픈 거 같아요.</p>
+    </div>
+
+    <div class="alert alert-info">
+      <strong>감별 Point:</strong> 숙이면 괜찮고 펴면 아프다 &#8594; 협착증 또는 후관절 증후군 (디스크는 반대!)
+    </div>
+
+    <p><strong>[ STEP 7: 중간 요약 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금까지 말씀한 걸 정리하자면, 통증이 4점 정도로 불편하고 하루 일과에서 비슷한 강도로 아프고 숙일 때 괜찮고 펴실 때 아프시다는 거 같아요. 만약에 아침에 더 통증이 심하다 하면, 의학적으로 조조강직이라 하는데, 이것은 염증성 통증일 때 나타나는 대표적 증상이거든요. 그런데 아침에 특별히 더 아프신 것은 아니셔서, 염증에 의한 것이 아니라, 기계적/물리적인 통증 같습니다. 제가 좀 더 자세히 알기 위해 신체문진을 하고 싶은데 그에 앞서서 몇 가지만 조금 더 질문드릴게요. 혹시 지금까지 말씀드린 것 중에 이해 안 되는 것 있으실까요? <span class="badge-info">요약 + 이해 확인</span></p>
+      <p>환: 없습니다.</p>
+    </div>
+
+    <p><strong>[ STEP 8: 추가 문진 - 가족력, 동반증상 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 가족 중에 비슷한 증상을 겪으신 분이 있을까요? <span class="badge-info">가족력</span></p>
+      <p>환: 저희 아버지가 허리 디스크가 있으셨어요.</p>
+      <p><strong>의:</strong> 아버지 쪽이 허리 디스크가 있으시고.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 요통 말고 또 다른 불편한 증상은 있으실까요? <span class="badge-info">ROS</span></p>
+      <p>환: 다른 불편한 증상은 없는 거 같아요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 허리 부분이 다리랑 연결되어 있어서 추가적으로 여쭤볼게요. 걸을 때 더 아프다든지 등의 증상이 있으실까요? <span class="badge-info">Claudication</span></p>
+      <p>환: 오래 걷거나 서 있을 때 다리 저림이 좀 있어요.</p>
+    </div>
+
+    <p><strong>[ STEP 9: 과거력, 현재 복용약 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금 앓고 계신 질환이나 병원에서 진단받은 질환은 있으신가요? <span class="badge-info">P/I 확인</span></p>
+      <p>환: ~~요.</p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 과거에 수술 받으신 적은 있으신가요? <span class="badge-info">Hx 확인</span></p>
+    </div>
+    <div class="script-box">
+      <p><strong>의:</strong> 현재 복용 중인 약은 있으신가요? <span class="badge-info">Medication</span></p>
+      <p>환: ~~요.</p>
+    </div>
+
+    <div class="alert alert-info">
+      <strong>자가채점표 필수 확인 항목 (문진에서 빠뜨리지 말 것)</strong><br>
+      &#9745; 내장기관 증상: 발열/오심, 체중감소/근력약화, 배뇨이상, 생리관련, 소화기증상, 복통<br>
+      &#9745; 술/담배/사회활동 확인<br>
+      &#9745; 외상력 확인<br>
+      &#9745; 골다공증 위험인자 (스테로이드 사용 여부, 전신 류마티스 질환)<br>
+      &#9745; 악성종양 동반 가능성 확인 (체중감소, 야간통)
+    </div>
+
+    <p><strong>[ 추가 문진 - 자가채점표 기반 빠뜨리기 쉬운 항목 ]</strong></p>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 요통 외에 열이 나거나 속이 메슥거리신 적은요? <span class="badge-info">Fever/Nausea - APN 감별</span></p>
+      <p><strong>의:</strong> 최근에 체중이 빠지거나 식욕이 떨어지신 건 없으신가요? <span class="badge-info">Weight loss - Malignancy</span></p>
+      <p><strong>의:</strong> 소변 보실 때 불편하시거나 소변 색이 이상하신 적은요? <span class="badge-info">Dysuria - 신결석/APN</span></p>
+      <p><strong>의:</strong> 항문 주위 감각이 이상하거나 대소변 보기 불편하신 건 없으신가요? <span class="badge-info">Cauda equina</span></p>
+      <p><strong>의:</strong> 다리에 힘이 빠지거나 감각이 무뎌진 적은 있으신가요? <span class="badge-info">하지 운동/감각</span></p>
+      <p><strong>의:</strong> 담배는 피우시나요? 술은 어느 정도 드시나요? <span class="badge-info">음주/흡연</span></p>
+    </div>
+
+    <h4>요약 멘트 예시 (신체진찰 이행 전)</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금까지 말씀해주신 것을 정리하면, 허리가 3년 전부터 서서히 아프셨고, 최근 2주 전부터 심해지셨습니다. 통증은 묵직한 양상이고, 아침저녁 차이 없이 수시로 아프시며, 허리를 펴실 때 더 아프시고 숙이면 괜찮으시다고 하셨습니다. 오래 걷거나 서 있을 때 다리 저림도 있으시고요. 제가 정리한 것이 맞을까요? 더 말씀하시고 싶은 증상 있으세요? <span class="badge-info">요약 확인</span></p>
+    </div>
+  </div>
+</div>
+
+<!-- 카드 3: 신체진찰 계획 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F9D1;&#x200D;&#x2695;&#xFE0F;</span>
+    <span class="card-title">신체진찰 계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-danger">&#9733; 신체진찰 전 반드시 손소독! &#9733;</div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 네, 확인 감사합니다. 이제부터 신체 진찰을 시행하겠습니다. <strong>(손소독)</strong> 의자에서 한 번 일어서서 제 쪽을 바라봐주세요.</p>
+    </div>
+
+    <table class="exam-table">
+      <tr><th>순서</th><th>검사</th><th>방법 및 멘트</th><th>목적</th></tr>
+      <tr>
+        <td>1</td>
+        <td><strong>시진</strong></td>
+        <td>척추 정렬 확인 (측만, 후만, 전만)</td>
+        <td>구조적 이상 확인</td>
+      </tr>
+      <tr class="table-highlight">
+        <td>2</td>
+        <td><strong>Schober test<br>(허리 굴곡/신전)</strong></td>
+        <td>"그 자세에서 허리를 굽힐 수 있는 만큼 굽혀볼게요. 반대로 필 수 있는 만큼 펴볼게요. 아프면 멈춰주세요."<br>&#8594; 환자: 허리 필 때 아파함</td>
+        <td>ROM 확인<br>AS 감별<br>신전 시 통증 = 협착증/후관절</td>
+      </tr>
+      <tr class="table-highlight">
+        <td>3</td>
+        <td><strong>발뒤꿈치/발가락 보행</strong></td>
+        <td>"허리 쪽 통증이 골반 쪽이나 다른 쪽 신경이 눌려서 나타나는 경우도 있어서, 신경학적 증상이 있는지 확인해보겠습니다. 발뒤꿈치로만 4발자국 앞으로 걸어보시고, 돌아오실 때는 발가락으로만 걸어보실게요."</td>
+        <td>L5 신경 (발뒤꿈치)<br>S1 신경 (발가락끝)<br>근력 저하 여부</td>
+      </tr>
+      <tr class="table-highlight">
+        <td>4</td>
+        <td><strong>SLR test<br>(하지 직거상 검사)</strong></td>
+        <td>"다리 쪽에 이상이 없는지 확인해볼게요. 혹시 제가 이렇게 다리를 들었을 때 다리 축을 따라 뻗치는 통증이 있을까요? 반대쪽은요?"<br>&#8594; SLR(+) = 디스크(HNP) 시사</td>
+        <td>좌골신경통 확인<br>HNP 감별</td>
+      </tr>
+      <tr class="table-highlight">
+        <td>5</td>
+        <td><strong>FABER test<br>(Patrick test)</strong></td>
+        <td>"고관절 쪽이 찝힌다고 하잖아요? 고관절에 문제가 있으면 요통으로 이어지는 경우가 있어서 그걸 검사해보겠습니다. 제가 무릎과 골반뼈를 누를 테니 이쪽(누르지 않은 쪽) 엉치뼈 아프면 말씀하세요."</td>
+        <td>고관절 문제 감별<br>천장관절염 감별</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Knee jerk, DTR</strong><br>(시간 남으면)</td>
+        <td>슬개건 반사 (L4), 아킬레스건 반사 (S1)</td>
+        <td>신경근 압박 여부</td>
+      </tr>
+    </table>
+
+    <div class="alert alert-info">
+      <strong>자가채점표 추가 신체진찰 항목</strong><br>
+      &#9745; 시진: 허리의 굴곡 이상 여부 관찰<br>
+      &#9745; 촉진: 허리의 국소적 통증 유발점 유무 (골절, 골수염, 천장관절염)<br>
+      &#9745; 촉진: 복부에서 압통/종괴 유무 확인 (내장기관 연관 여부)<br>
+      &#9745; Dermatome 검사: 감각, 운동 이상 여부 + knee/achilles DTR<br>
+      &#9745; SLR test: HNP 감별<br>
+      &#9745; Schober test: AS 감별<br>
+      &#9745; Foot dorsalis pedis artery palpation: 혈관성 파행 감별
+    </div>
+
+    <h4>Dermatome 참고</h4>
+    <table class="exam-table">
+      <tr><th>신경근</th><th>감각 영역</th><th>근력 검사</th><th>반사</th></tr>
+      <tr><td>L4</td><td>첫째-둘째 발가락 사이 web 내측</td><td>무릎 펴기 (Knee extension)</td><td>Knee jerk</td></tr>
+      <tr><td>L5</td><td>첫째-둘째 발가락 사이 web 외측</td><td>발목/엄지 배측굴곡 (Dorsiflexion)<br>발뒤꿈치 보행</td><td>-</td></tr>
+      <tr><td>S1</td><td>발날 부위 (외측)</td><td>발바닥굴곡 (Plantar flexion)<br>발가락끝 보행</td><td>Ankle jerk</td></tr>
+    </table>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 네 신체검사는 끝나셨고, 다시 앉아보시겠어요?</p>
+    </div>
+  </div>
+</div>
+
+<!-- 카드 4: 감별진단 및 검사/치료 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F50D;</span>
+    <span class="card-title">감별진단 및 검사/치료계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <h4>감별진단 (DDx)</h4>
+    <table class="exam-table">
+      <tr><th>진단명</th><th>핵심 감별 포인트</th><th>이 환자</th></tr>
+      <tr class="table-highlight">
+        <td><strong>척추관 협착증<br>(Spinal Stenosis)</strong></td>
+        <td>서거나 걸으면 악화, 앉거나 숙이면 호전<br>신경인성 파행, 허리 신전 시 악화</td>
+        <td><strong>&#9733; 가장 유력</strong><br>펴면 아프고 숙이면 괜찮음<br>오래 걸으면 다리 저림</td>
+      </tr>
+      <tr>
+        <td>추간판 탈출증<br>(HNP, 디스크)</td>
+        <td>숙이면 악화, 앉으면 악화<br>기침/재채기 시 악화, SLR(+)</td>
+        <td>숙이면 괜찮음 &#8594; 가능성 낮음<br>아버지 디스크 가족력 있음</td>
+      </tr>
+      <tr>
+        <td>강직성 척추염<br>(AS)</td>
+        <td>조조강직, 야간통, 운동 시 호전<br>서서히 발병, 젊은 남성</td>
+        <td>조조강직(-), 야간통(-)<br>&#8594; 가능성 매우 낮음</td>
+      </tr>
+      <tr>
+        <td>후관절 증후군<br>(Facet Joint Syndrome)</td>
+        <td>허리 신전 시 악화, 묵직한 통증<br>무릎 밑으로 통증 안 뻗침</td>
+        <td>신전 시 악화 일치하나<br>다리 저림 동반 &#8594; 협착증 우선</td>
+      </tr>
+      <tr>
+        <td>근육/인대 문제<br>(Strain/Sprain)</td>
+        <td>움직이면 악화, 쉬면 호전<br>외상력</td>
+        <td>만성 경과 &#8594; 단순 strain 가능성 낮음</td>
+      </tr>
+      <tr>
+        <td>악성종양 전이</td>
+        <td>지속통, 야간통 심함, 체중 감소<br>쉬어도 안 나음</td>
+        <td>야간통(-), 체중 감소(-)<br>&#8594; Red flag 없음</td>
+      </tr>
+    </table>
+
+    <h4>필요 검사</h4>
+    <table class="exam-table">
+      <tr><th>검사</th><th>목적</th></tr>
+      <tr class="table-highlight"><td><strong>X-ray (요추)</strong></td><td>척추 상태 확인, 퇴행성 변화, 협착 정도</td></tr>
+      <tr class="table-highlight"><td><strong>CT (필요시)</strong></td><td>협착 정도 정밀 확인</td></tr>
+      <tr><td>혈액검사</td><td>염증 여부 (ESR, CRP), 내과적 이상 확인</td></tr>
+      <tr><td>MRI (현재 불필요)</td><td>신경 압박 증거 없으므로 당장 불필요</td></tr>
+    </table>
+
+    <h4>치료계획</h4>
+    <table class="exam-table">
+      <tr><th>치료</th><th>내용</th></tr>
+      <tr><td>약물치료</td><td>소염진통제 (NSAIDs) 처방, 통증 심할 때 복용<br>근이완 효과 있는 약 병용 가능</td></tr>
+      <tr><td>물리치료</td><td>허리 굴곡 운동, 코어 근육 강화</td></tr>
+      <tr><td>생활관리</td><td>허리 과신전 자세 회피, 중간 휴식, 자세 변경</td></tr>
+      <tr><td>추적관찰</td><td>검사 결과 확인 후 치료 방향 재설정</td></tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>퇴장 후 입력용</strong><br>
+      <strong>예상 진단 2가지:</strong><br>
+      1. 척추관 협착증 (Spinal Stenosis)<br>
+      2. 후관절 증후군 (Facet Joint Syndrome) 또는 추간판 탈출증 (HNP)<br><br>
+      <strong>치료계획 4가지:</strong><br>
+      1. X-ray 촬영 (요추 AP/Lat)<br>
+      2. 혈액검사 (CBC, ESR, CRP 등 염증 마커)<br>
+      3. 소염진통제 (NSAIDs) 처방<br>
+      4. 생활습관 교육 (허리 과신전 회피, 중간 휴식, 자세 변경)
+    </div>
+  </div>
+</div>
+
+<!-- 카드 5: 환자 설명 및 교육 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4D6;</span>
+    <span class="card-title">환자 설명 및 교육</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <h4>진단 설명 멘트 (시나리오 대본 기반)</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금 말씀해주신 거 종합하면, 허리가 몇 년 전부터 서서히 아프셨고, 하루 중에도 수시로 아프시다고 하셨잖아요. 그리고 아버님께서 디스크가 있다고 하셔서 환자 본인도 디스크가 아닌가 걱정하셨을 거 같아요.</p>
+      <p><strong>의:</strong> 근데 디스크 같은 경우에는 오히려 <strong>허리를 숙이면 아픈데</strong>, 환자 분은 <strong>허리를 펴실 때 더 아프셨잖아요?</strong> 이것은 전형적인 <strong>척추관 협착증</strong>의 증상입니다. <span class="badge-info">디스크와 차이점 설명</span></p>
+      <p><strong>의:</strong> 척추관 협착증이라는 게 나이가 들면서 척추뼈 뒤의 공간이 좁아져서 신경이 눌려서 통증이 발생하게 되거든요. <span class="badge-info">질환 설명</span></p>
+      <p><strong>의:</strong> 다행히 신체검사 상 아직 위험한 신경학적 증상은 없지만, 정확히 어느 정도 진행되었는지 보려면 X-ray랑 필요에 따라서 CT를 찍어야 할 거 같습니다. 그래서 해당 검사들 예약 도와드릴게요. <span class="badge-info">검사 계획 설명</span></p>
+      <p><strong>의:</strong> 너무 미리 걱정하실 필요는 없으실 거 같습니다. 혹시 제가 말씀드린 것 중에 이해가 안 가거나 아니면 추가적으로 궁금한 것이 있을까요? <span class="badge-info">이해 확인 + 질문 유도</span></p>
+    </div>
+
+    <h4>환자 질문 대응</h4>
+    <div class="script-box">
+      <p>환: 그러면 제가 평소에 관리는 어떻게 해야하나요?</p>
+      <p><strong>의:</strong> 좋은 질문 감사합니다. 척추관 협착증은 결국 눌려서 통증이 발생하는 것이기 때문에 <strong>억지로 허리를 펴는 자세는 하지 않으시면 좋고</strong>, 일하시느라 어렵겠지만 <strong>중간중간 최대한 휴식을 취하시고</strong> 너무 <strong>오랫동안 같은 자세로 있는 것도 피해주시면</strong> 좋겠어요. <span class="badge-info">생활관리 교육</span></p>
+    </div>
+
+    <h4>생활관리 교육 정리</h4>
+    <table class="exam-table">
+      <tr><th>교육 항목</th><th>내용</th></tr>
+      <tr><td>자세</td><td>억지로 허리를 펴는 자세(과신전) 피하기</td></tr>
+      <tr><td>휴식</td><td>작업 중 중간중간 휴식 취하기</td></tr>
+      <tr><td>같은 자세</td><td>오랫동안 같은 자세 유지 피하기 (쪼그려 앉기 포함)</td></tr>
+      <tr><td>운동</td><td>허리 굴곡 운동, 수영, 실내 자전거 등 허리에 부담 적은 운동</td></tr>
+      <tr><td>보행</td><td>쇼핑카트 밀기처럼 약간 숙인 자세로 걷기가 편할 수 있음</td></tr>
+    </table>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 제가 설명드린 내용 이해하시겠어요? 더 궁금하신 점 있으시면 말씀해주세요. <span class="badge-info">이해 확인</span></p>
+      <p><strong>의:</strong> 그러면 검사 결과 나오는 대로 다시 뵙겠습니다. 오늘 오시느라 수고 많으셨습니다. <span class="badge-info">마무리 인사</span></p>
+    </div>
+
+    <div class="alert alert-danger">&#9733; 마무리 전 반드시 손소독! &#9733;</div>
+  </div>
+</div>
+
+<!-- 카드 6: 자가채점 체크리스트 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#9745;</span>
+    <span class="card-title">자가채점 체크리스트</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <h4>병력청취 (Hx)</h4>
+    <p><strong>허리통증의 일반적인 성격 파악</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-1"> Onset 확인 (언제부터, 갑자기/서서히)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-2"> Duration 확인 (지속 기간, 만성 여부)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-3"> Location 확인 (통증 부위 손가락으로 가리키기)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-4"> Nature 확인 (묵직한/찌르는/전기오는 느낌)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-5"> Severity 확인 (VAS/NRS 0~10점)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-6"> Radiation 확인 (방사통, 엉덩이/다리로 뻗침)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-7"> Claudication 동반 여부 (오래 걸으면 다리 저림)</label>
+
+    <p><strong>허리통증의 악화요인</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-8"> 활동 시 악화 여부 (Mechanical)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-9"> 휴식 시 악화 여부 (Inflammatory)</label>
+
+    <p><strong>염증성 vs 비염증성 감별</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-10"> 조조강직 확인 (아침에 뻣뻣한지, 얼마나 지속되는지)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-11"> 야간통 확인 (밤에 자다가 깨는지)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-12"> 하루 중 심한 시간대 (오전/오후)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-13"> 운동 시 호전/악화 여부</label>
+
+    <p><strong>신경학적 관련 증상</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-14"> Radiation 확인 (방사통, HNP 감별)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-15"> 동반 하지 통증 (Spinal stenosis 등)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-16"> 하지의 운동능력 감소 여부</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-17"> 하지의 감각능력 감소 여부</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-18"> 대변/소변/회음부 감각 이상 (Cauda equina syndrome)</label>
+
+    <p><strong>내장기관 관련 증상</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-19"> 발열, 오심 (APN)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-20"> 체중 감소, 근력 약화 (Malignancy)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-21"> 배뇨 이상, 소변색 변화 (Nephrolithiasis, APN)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-22"> 생리 관련 증상 (Endometriosis)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-23"> 소화기 증상 - 상복부통, 소화불량, 오심, 구토 (Peptic ulcer)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-24"> 복통 (APN, 후복막 충수염, 게실 농양)</label>
+
+    <p><strong>과거력 및 가족력</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-25"> 관절 손상 과거력 (외상력)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-26"> 골다공증 관련 골절 가능성 (전신 류마티스 질환, 스테로이드 1개월 이상 사용)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-27"> 악성종양 동반 가능성</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-28"> 가족력 확인 (암, 관절질환, 류마티스)</label>
+
+    <p><strong>사회력</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-29"> 담배</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-30"> 술 (골다공증 위험인자)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-hx-31"> 활동/운동량이 부족한 상황인지</label>
+
+    <hr>
+
+    <h4>신체진찰 (P.Ex)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-1"> 시진: 허리의 굴곡 이상 여부 관찰 (측만/후만/전만)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-2"> 촉진: 허리의 국소적 통증 유발점 유무 (골절, 골수염, 천장관절염)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-3"> 촉진: 복부 압통/종괴 유무 (내장기관 연관)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-4"> Schober test (허리 ROM, 굴곡/신전)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-5"> Dermatome 검사: 감각, 운동 이상 여부</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-6"> Knee jerk / Achilles DTR 검사</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-7"> SLR test (하지 직거상 검사 - HNP 감별)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-8"> Foot dorsalis pedis artery palpation (혈관성 파행 감별)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-9"> 발뒤꿈치 보행 / 발가락 보행 (L5, S1 신경 근력)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-pe-10"> FABER test / Patrick test (고관절, 천장관절)</label>
+
+    <hr>
+
+    <h4>환자교육 (Edu)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-1"> 예상 진단명 설명 (척추관 협착증)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-2"> 디스크와의 차이 설명 (숙이면 vs 펴면)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-3"> 질환 기전 설명 (척추뼈 뒤 공간 좁아져 신경 압박)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-4"> 필요 검사 설명 (X-ray, 필요시 CT)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-5"> 위험한 신경학적 증상 없음 안심시키기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-6"> 생활관리 교육 (과신전 회피, 중간 휴식, 자세 변경)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-7"> 환자 이해 여부 확인 ("말씀드린 내용 이해하시겠어요?")</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-edu-8"> 추가 궁금한 점 확인 ("더 궁금하신 점 있으세요?")</label>
+
+    <hr>
+
+    <h4>공통 평가항목 (환자-의사 관계)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-1"> 자기소개 (인사, 신분, 이름)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-2"> 일상대화로 진료 시작 (긴장 해소)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-3"> 질문을 한번에 한 가지씩</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-4"> 환자 말 끊지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-5"> 적절한 진료 속도</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-6"> 경청 태도 (눈맞춤, 적정 거리, 자세, 복장)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-7"> 진료 중반 이후 상태 요약</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-8"> 요약 후 정확한지/추가 사항 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-9"> 쉬운 용어 사용 (의료 용어 사용 자제)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-10"> 걱정과 감정에 공감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-11"> 진단/검사 설명 이해 가능하게</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-12"> 설명 이해했는지 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-13"> 더 궁금한 점 있는지 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-14"> 치료계획 수립 시 환자 의견 반영</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-15"> 의학적 자신감 전달</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-16"> 신뢰감 전달</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-17"> &#9733; 손소독 (신체진찰 전 또는 후, 종료 직전) &#9733;</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-18"> 신체진찰 시 불편/불쾌하지 않도록 배려</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="musculoskeletal" data-id="v2-musculo-comm-19"> 신체진찰 전 설명 (어떤 진찰을, 왜, 어떻게)</label>
+  </div>
+</div>
+<button class="reset-btn" onclick="resetChecklist('musculoskeletal')">체크리스트 전체 초기화</button>
+</div>
+<div id="tab-reproductive" class="tab-content">
+<!-- ============================================
+     생식및여성 - 질 출혈 (자궁근종) CASE
+     시험 직전 모드: 시나리오 기반 실전 최적화
+     ============================================ -->
+
+<!-- 카드 1: 시나리오 정보 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4CB;</span>
+    <span class="card-title">시나리오 정보</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <div class="alert alert-danger">★ 시험 직전 모드: 시나리오.pdf 기반 실전 최적화 ★</div>
+
+    <table class="exam-table">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>환자명</td><td>김사월</td></tr>
+      <tr><td>나이 / 성별</td><td>43세 / 여성</td></tr>
+      <tr class="table-highlight"><td>주호소 (C/C)</td><td>질 출혈</td></tr>
+      <tr><td>체온</td><td>36.8 &#8451;</td></tr>
+      <tr><td>맥박</td><td>88회/분</td></tr>
+      <tr><td>호흡</td><td>19회/분</td></tr>
+      <tr><td>혈압</td><td>120/70 mmHg</td></tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>V/S 해석:</strong> 활력징후 정상 범위. 빈맥/저혈압 없어 급성 대량 출혈 가능성은 낮음.<br>
+      <strong>핵심 감별 포인트:</strong> 43세 여성, 폐경 이행기 나이대 &rarr; 자궁근종이 가장 흔한 원인
+    </div>
+  </div>
+</div>
+
+<!-- 카드 2: 문진 흐름 (모의대본) -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4AC;</span>
+    <span class="card-title">문진 흐름 (모의대본)</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>문진 순서도</h4>
+    <div class="mermaid">
+graph TD
+A["인사 및 자기소개<br>환자 정보 확인"] --> B["주호소 확인<br>질 출혈"]
+B --> C["출혈 Onset<br>언제부터?"]
+C --> D["출혈량 확인<br>패드 교체 빈도"]
+D --> E["출혈량 변화<br>증가 또는 감소"]
+E --> F["LMP 확인<br>마지막 생리일"]
+F --> G["생리 불규칙 여부<br>폐경 이행기 감별"]
+G --> H["폐경기 증상 확인<br>열감 수면장애"]
+H --> I["성교 시 출혈<br>자궁경부 문제 감별"]
+I --> J["과거 유사 증상<br>병력 확인"]
+J --> K["산과력 확인<br>출산 경험 유산력"]
+K --> L["복통 동반 여부<br>양상 확인"]
+L --> M["약물 및 과거력<br>만성질환 음주 흡연"]
+M --> N["병력 요약<br>추가 증상 확인"]
+N --> O["신체 진찰 전환<br>동의 구하기"]
+    </div>
+
+    <h4>대화 스크립트 (시나리오 기반)</h4>
+
+    <div class="alert alert-danger">★ 손소독 ★ 진찰 전 반드시 손소독제 사용</div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 안녕하세요. 저는 오늘 진료를 맡은 학생 의사 OOO입니다. 지금부터 10분 정도 진료할 예정인데 괜찮으신가요? <span class="badge-info">자기소개</span></p>
+      <p><strong>의:</strong> 환자분 성함, 생년월일 확인하겠습니다. (확인 후) 네 확인되었습니다.</p>
+      <p><strong>의:</strong> 날이 추운데 오시느라 수고 많으셨어요. 병원에 오면 긴장되실 수도 있는데 편하게 말씀해 주시면 제가 하나씩 여쭤볼게요. <span class="badge-info">일상대화 / 긴장완화</span></p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 오늘 어디가 불편해서 병원에 오셨어요? <span class="badge-info">C/C 확인 - 개방형 질문</span></p>
+      <p>환: 질 출혈이 계속 있어서요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 출혈이 있으셨다고요? 많이 놀라셨겠어요. 혹시 언제부터 질출혈이 있으셨을까요? <span class="badge-info">Onset + 공감표현</span></p>
+      <p>환: ~~주 전부터요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> ~~주 전부터면 꽤 오랫동안 출혈이 발생하셨네요. 혹시 출혈량은 어느 정도였을까요? 예를 들어, 생리대 대형 패드를 하루에도 여러 번 갈아야 한다든지 등으로 구체적으로 설명해 주실 수 있으세요? <span class="badge-info">출혈량 확인</span></p>
+      <p>환: 대형 패드를 여러 번 갈아야 했어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 패드를 하루에도 여러 번 갈아야 했으면 많이 불편하셨겠어요. 그럼 처음 질출혈이 발생했을 때부터 병원에 내원하기까지 양의 변화가 있었나요? 점차 증가했다든지... <span class="badge-info">출혈량 변화 + 공감</span></p>
+      <p>환: 계속 많았어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 마지막 생리는 언제신가요? <span class="badge-info">LMP 확인</span></p>
+      <p>환: 생리기간이 요즘 들어 들쑥날쑥한데 ~~였어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 그러시군요. 생리기간이 조금 불규칙적이라 하셨는데, 혹시 최근에 좀 발열 증상이 있거나 그러시지는 않았나요? <span class="badge-info">폐경기 증상 확인</span></p>
+      <p>환: 요즘 들어 열이 좀 발생한 거 같아요.</p>
+      <p><strong>의:</strong> 네 확인 감사합니다. 제가 여쭤본 이유가, 여성분들이 폐경을 앞두고 생리기간이 불규칙해지는데, 이때 동반되는 증상이 열감, 수면장애 등이 있어서거든요. 마침 환자분 연령대가 폐경기에 해당하는 시기여서 여쭤봤습니다. <span class="badge-info">설명 제공</span></p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 추가적으로 출혈이 발생하는 상황에 대해서 여쭤볼게요. 조금 민감한 질문일 수 있는데, 자궁경부에 문제가 있으면 성관계 후 출혈이 발생할 수 있어서요. 혹시 관계 후에도 출혈이 있으셨을까요? <span class="badge-info">성교 시 출혈 - 자궁경부 감별 + 민감질문 배려</span></p>
+      <p>환: 성관계 후에도 조금은 나왔던 것 같아요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 이전에도 비슷한 증상을 겪으신 적 있나요? <span class="badge-info">과거 병력</span></p>
+      <p>환: 아뇨 그런 적은 없어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 출산 경험이 있으실까요? <span class="badge-info">산과력 확인 ★ 핵심</span></p>
+      <p>환: 없어요.</p>
+      <p><strong>의:</strong> 확인 감사합니다. 제가 이 질문을 드린 이유는, 출산 경험이 있으신 여성에서 출산 시 출혈이 많으신 분들이 질 출혈도 호소하는 경우가 있어서 확인차 질문드렸습니다. 몇 가지만 더 질문드릴게요. <span class="badge-info">질문 이유 설명</span></p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 출혈 시 복통이 동반될까요? <span class="badge-info">동반 증상 - 복통</span></p>
+      <p>환: 아랫배도 아파요.</p>
+      <p><strong>의:</strong> 아랫배가 어떻게 불편하세요?</p>
+      <p>환: 불룩한 느낌이에요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 현재 드시고 계신 약 있으실까요? 고혈압이나 당뇨 진단받으신 적 있으신가요? 술 하시나요? 담배 하시나요? <span class="badge-info">약물 / 과거력 / 사회력</span></p>
+      <p>환: (NSAID 복용 중, 만성질환 없음, 음주/흡연 없음)</p>
+    </div>
+
+    <div class="script-box" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+      <p><strong>의:</strong> 정리하자면, 현재 NSAID 복용 중이시고, 따로 진단받은 질환은 없으시고요. 술이나 담배도 안 하시는데, 술/담배가 출혈을 일으킬 수 있는 원인 중 하나여서 이거에 의한 출혈도 아니신 거 같고요. 생리기간도 불규칙해서 폐경 증상일 수도 있는데, 출혈 시 복통이 있다고 하셔서 추가적으로 신체 진찰을 시행해야 할 거 같아요. <span class="badge-info">병력 요약</span></p>
+      <p><strong>의:</strong> 제가 이해한 내용이 맞을까요? 신체검진 전에 혹시 더 말씀하실 증상은 없으세요? <span class="badge-info">요약 확인 + 추가증상</span></p>
+    </div>
+
+    <div class="alert alert-warning">
+      <strong>문진 요약 체크포인트:</strong><br>
+      1. 출혈 Onset / 양 / 변화 &rarr; 확인 완료<br>
+      2. LMP / 생리 불규칙 &rarr; 확인 완료<br>
+      3. 폐경기 증상 (열감) &rarr; 확인 완료<br>
+      4. 성교 시 출혈 &rarr; 확인 완료 (민감 질문 배려)<br>
+      5. 산과력 ★ &rarr; 확인 완료<br>
+      6. 복통 동반 &rarr; 확인 완료<br>
+      7. 약물/과거력/사회력 &rarr; 확인 완료<br>
+      8. 병력 요약 + 추가사항 확인 &rarr; 확인 완료
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 3: 신체진찰 계획 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F9D1;&zwj;&#x2695;&zwj;</span>
+    <span class="card-title">신체진찰 계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <div class="alert alert-danger">★ 손소독 ★ 신체 진찰 전 반드시 손소독제 사용! 종료 직전에도 반드시 손소독!</div>
+
+    <table class="exam-table">
+      <tr><th>순서</th><th>진찰 항목</th><th>목적</th><th>멘트</th></tr>
+      <tr>
+        <td>1</td>
+        <td><strong>눈 결막 확인</strong></td>
+        <td>빈혈 여부 확인<br>(출혈에 의한 빈혈)</td>
+        <td>"일단 출혈이 계속 지속되기 때문에 빈혈이 있을 수 있어서 눈 쪽 한 번 볼게요. 손소독은 진행했고, 눈에 힘 푸시면 제가 눈꺼풀을 잠깐 아래로 당겨서 확인해보겠습니다."</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3" style="background:#e8f5e9;"><strong>결과:</strong> 눈가 결막이 창백하지 않아 빈혈은 없음</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>복부 진찰</strong><br>(시진 &rarr; 촉진)</td>
+        <td>복부 종괴 확인<br>(자궁근종 등)</td>
+        <td>"혹시 복부 쪽에 어떤 덩어리가 자리 잡아서 그에 의해서 출혈이 있지는 않은지 확인해보겠습니다. 윗옷을 배가 보이게 걷어주시고, 바지도 살짝만 내려주실게요."</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3" style="background:#e8f5e9;"><strong>순서:</strong> 시진 &rarr; (청진) &rarr; (타진) &rarr; 촉진<br><strong>결과:</strong> 눈으로 보이는 이상 없음, 촉진 시 덩어리 만져지지 않음</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>질경 검사</strong></td>
+        <td>출혈 원인 부위 확인<br>(자궁경부/질벽/자궁 내부)</td>
+        <td>"복부 진찰에서도 큰 이상이 없어서 이제 질경 검사를 시행해볼게요."</td>
+      </tr>
+      <tr>
+        <td></td>
+        <td colspan="3" style="background:#fff3e0;"><strong>결과 카드:</strong> 출혈이 보인다고 기재됨<br>"네, 검사가 끝났습니다. 다시 자리에 앉아주시겠어요?"</td>
+      </tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>신체진찰 시 환자 배려 포인트:</strong><br>
+      - 진찰 전 무엇을, 왜, 어떻게 할 것인지 충분히 설명<br>
+      - 노출 필요 시 양해를 구하고 진찰 이외 부분은 가려주기<br>
+      - 질경 검사 등 민감한 검사 시 불편할 수 있음을 미리 고지<br>
+      - 환자가 힘들어하면 도와주기
+    </div>
+
+    <div class="alert alert-danger">★ 종료 직전 반드시 손소독제 사용 ★</div>
+
+  </div>
+</div>
+
+<!-- 카드 4: 감별진단 및 검사/치료 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F50D;</span>
+    <span class="card-title">감별진단 및 검사 / 치료계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>감별진단 (DDx)</h4>
+    <table class="exam-table">
+      <tr><th>감별진단</th><th>주요 특징</th><th>감별 포인트</th></tr>
+      <tr class="table-highlight">
+        <td><strong>자궁근종 (Myoma) ★</strong></td>
+        <td>가임기 여성에서 가장 흔한 양성 종양<br>과다월경, 부정출혈, 하복부 팽만감</td>
+        <td>43세 + 질출혈 + 하복부 불룩감<br>&rarr; 가장 유력한 진단</td>
+      </tr>
+      <tr>
+        <td>자궁내막증 (Endometriosis)</td>
+        <td>생리통, 성교통, 만성 골반통</td>
+        <td>생리 시 통증 심화 여부</td>
+      </tr>
+      <tr>
+        <td>골반염증성질환 (PID)</td>
+        <td>발열, 하복부 통증, 질 분비물</td>
+        <td>발열/질분비물 동반 여부</td>
+      </tr>
+      <tr>
+        <td>임신 관련</td>
+        <td>자궁외임신, 유산 등</td>
+        <td>LMP, 임신 가능성 확인</td>
+      </tr>
+      <tr>
+        <td>내분비질환<br>(고프로락틴혈증 등)</td>
+        <td>무배란성 출혈, 유즙분비</td>
+        <td>호르몬 검사 필요</td>
+      </tr>
+      <tr>
+        <td>혈액응고장애</td>
+        <td>전신 출혈 경향, 멍</td>
+        <td>타 부위 출혈/멍 여부</td>
+      </tr>
+      <tr>
+        <td>다낭성난소증후군 (PCOS)</td>
+        <td>비만, 다모증, 무배란</td>
+        <td>체형, 월경 불규칙 양상</td>
+      </tr>
+      <tr>
+        <td>기능성 자궁출혈 (DUB)</td>
+        <td>기질적 원인 없는 호르몬 교란</td>
+        <td>다른 원인 배제 후 진단</td>
+      </tr>
+      <tr>
+        <td>감염성 질환 (Infectious)</td>
+        <td>질 분비물, 소양감, 발열</td>
+        <td>분비물 양상, 성병력</td>
+      </tr>
+    </table>
+
+    <h4>연령별 질출혈 원인 감별</h4>
+    <table class="exam-table">
+      <tr><th>연령대</th><th>주요 원인</th></tr>
+      <tr><td>사춘기 ~ 청소년기</td><td>무배란성 출혈(DUB), 응고장애, 임신, 감염</td></tr>
+      <tr><td>가임기 (20~30대)</td><td>임신 관련, 자궁근종, 자궁내막증, PID, PCOS</td></tr>
+      <tr class="table-highlight"><td><strong>폐경 이행기 (40대) ★</strong></td><td><strong>자궁근종, 무배란성 출혈, 자궁내막증식증, 자궁내막암 감별 필요</strong></td></tr>
+      <tr><td>폐경 후</td><td>자궁내막 위축, 자궁내막암, 호르몬 치료 관련</td></tr>
+    </table>
+
+    <h4>필요 검사</h4>
+    <table class="exam-table">
+      <tr><th>검사</th><th>목적</th></tr>
+      <tr><td><strong>호르몬 검사</strong></td><td>FSH, LH, E2, TSH, 프로락틴 등 - 내분비 원인 감별</td></tr>
+      <tr><td><strong>초음파 검사</strong></td><td>자궁근종 위치/크기 확인, 자궁내막 두께, 난소 상태</td></tr>
+      <tr><td>임신 반응 검사</td><td>임신 관련 출혈 배제</td></tr>
+      <tr><td>CBC (일반혈액검사)</td><td>빈혈 정도 확인</td></tr>
+      <tr><td>응고 검사</td><td>혈액응고장애 감별 (필요 시)</td></tr>
+    </table>
+
+    <h4>치료계획</h4>
+    <div class="alert alert-warning">
+      <strong>퇴장 후 입력용 (진단 2가지 + 치료계획 4가지):</strong><br><br>
+      <strong>예상 진단:</strong><br>
+      1. <strong>자궁근종 (Uterine myoma)</strong> ★ 1순위<br>
+      2. 기능성 자궁출혈 (DUB) 또는 자궁내막증식증<br><br>
+      <strong>치료계획:</strong><br>
+      1. 호르몬 검사 (FSH, LH, E2, TSH, PRL)<br>
+      2. 골반 초음파 검사<br>
+      3. CBC 및 철분 검사 (빈혈 평가)<br>
+      4. 결과에 따라 약물치료 (호르몬제) 또는 수술적 치료 고려
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 5: 환자 설명 및 교육 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4D6;</span>
+    <span class="card-title">환자 설명 및 교육</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>진단/검사/치료 설명 멘트 (시나리오 기반)</h4>
+    <div class="script-box" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+      <p><strong>의:</strong> 제가 문진과 신체 진찰 해본 결과, 다행히 출혈에 의한 빈혈도 없으시고 복부에 만져지는 덩어리는 없으신데, 질경 검사에서 계속되는 출혈이 보이고 있어요.</p>
+      <p><strong>의:</strong> 지금 환자분 나이와 임신 가능성 등을 모두 종합하였을 때 이런 질출혈의 가장 흔한 원인이 <strong>자궁근종</strong>이에요. <span class="badge-info">추정 진단 설명</span></p>
+      <p><strong>의:</strong> 그런데 다른 원인이나 이상이 있는지 확인해보기 위해 <strong>호르몬 검사</strong>랑 <strong>초음파 검사</strong>를 추가적으로 시행해야 할 거 같습니다. <span class="badge-info">추가 검사 설명</span></p>
+    </div>
+
+    <h4>안심 멘트 ("종"자 설명)</h4>
+    <div class="script-box" style="background: #fff8e1; border-left: 4px solid #ff9800;">
+      <p><strong>의:</strong> 근데 자궁근종이라 하면 많은 분들이 "종"자라는 글자로 걱정을 하시는데, 무조건 종양, 암이라고 생각하실 필요가 전혀 없고 <strong>예후가 좋고 치료가 간단한 편</strong>에 속하니 너무 미리 걱정하실 필요는 없으실 거 같아요. <span class="badge-info">안심 + 공감</span></p>
+    </div>
+
+    <h4>마무리 교육 멘트</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 지금까지 말씀드린 거에 궁금하신 거 있으실까요? <span class="badge-info">이해 확인</span></p>
+      <p><strong>의:</strong> 앞으로 정기적인 검진을 받으시는 것이 중요하고요, 만약 출혈량이 갑자기 많아지거나 심한 복통이 생기시면 바로 병원에 내원해 주세요. <span class="badge-info">정기 검진 권유 + 응급 내원 기준</span></p>
+      <p><strong>의:</strong> 설명드린 내용은 이해가 되셨을까요? 혹시 더 궁금하신 점이나 걱정되시는 부분 있으시면 편하게 말씀해 주세요. <span class="badge-info">설명 이해 확인 + 추가 질문</span></p>
+      <p><strong>의:</strong> 향후 치료 계획에 대해서 환자분 의견은 어떠세요? 검사 진행하는 것 괜찮으시겠어요? <span class="badge-info">환자 의견 확인</span></p>
+    </div>
+
+    <div class="alert alert-danger">★ 마무리 후 반드시 손소독 ★</div>
+
+  </div>
+</div>
+
+<!-- 카드 6: 자가채점 체크리스트 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x2705;</span>
+    <span class="card-title">자가채점 체크리스트</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>병력청취 (History Taking)</h4>
+
+    <p><strong>[ 질출혈에 대해 ]</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-1"> Onset 확인 (언제부터 출혈이 시작되었는지)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-2"> 출혈량 확인 (패드 교체 빈도 등 구체적으로)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-3"> 통증 동반 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-4"> 생리와 출혈 시기의 상관관계 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-5"> 성교통 및 성교 시 출혈 확인</label>
+
+    <p><strong>[ 동반 증세 ]</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-6"> 질 분비물 여부 (burning, itching)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-7"> 유방 불편감 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-8"> 발열 (fever) 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-9"> 복통/복부 종괴 (abdominal pain/mass) 확인</label>
+
+    <p><strong>[ 산부인과적 과거력 ]</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-10"> Last coitus (마지막 성관계) 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-11"> ★ 산과력 (Obstetric history) 확인 - 출산/유산 경험</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-12"> 월경력 - 초경 시기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-13"> 월경력 - 마지막 생리 시작일 (LMP)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-14"> 월경력 - 생리 간격/기간/양/규칙성</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-15"> 월경력 - 생리통 유무</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-16"> 임신 가능성 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-17"> 폐경 관련 (폐경 시기, 호르몬 요법 여부)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-18"> 피임 여부 (Contraception)</label>
+
+    <p><strong>[ 약물 및 사회력 ]</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-19"> 현재 복용 약물 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-20"> 음주/흡연 확인</label>
+
+    <p><strong>[ 과거력 ]</strong></p>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-21"> 만성 질환 (DM, HBP 등)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-22"> 산부인과적 문제 (OBGY problem)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-23"> 내분비 질환 (Endocrine)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-24"> 수술력/입원력 (OP/Adm history)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-25"> 알레르기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-hx-26"> 직업 확인</label>
+
+    <h4>신체진찰 (Physical Examination)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-1"> Vital signs 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-2"> Eye - 결막 빈혈 확인 (anemic conjunctivae)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-3"> 복부 시진</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-4"> 복부 촉진</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-5"> Pelvic exam (질경 검사)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-pe-6"> 외음부 병변/질 분비물 확인</label>
+
+    <h4>환자교육 및 의사소통</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-1"> 자기소개 (인사, 신분, 이름)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-2"> 일상대화로 긴장/두려움 감소</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-3"> 개방형/폐쇄형 질문 적절 사용</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-4"> 한 번에 한 가지씩 질문</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-5"> 환자 말 가로채지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-6"> 적절한 진료 속도 (말의 속도)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-7"> 경청 자세 (눈맞춤, 적정 거리, 바른 자세, 단정한 복장)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-8"> 진료 중반 이후 환자 상태 요약</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-9"> 요약 정확성 확인 + 추가사항 질문</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-10"> 어려운 의료 용어 사용하지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-11"> 환자 걱정/감정에 공감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-12"> 진단/검사에 대한 알기 쉬운 설명</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-13"> 설명 이해 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-14"> 추가 질문/궁금한 점 있는지 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-15"> 향후 치료계획 시 환자 의견 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-16"> 의사의 자신감/신뢰감 전달</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-17"> ★ 신체 진찰 전후 손소독</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-18"> 신체 진찰 시 환자 배려 (노출 최소화, 수치심 방지)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-19"> 신체 진찰 전 설명 (무엇을, 왜, 어떻게)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-20"> 다시 진료받고 싶은 의사 인상</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-edu-21"> ★ 종료 직전 손소독제 사용</label>
+
+    <h4>감별진단 (DDx) 체크</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-1"> Myoma (자궁근종) ★</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-2"> Endometriosis (자궁내막증)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-3"> PID (골반염증성질환)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-4"> 임신 관련</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-5"> 고프로락틴 등 내분비질환</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-6"> 혈액응고장애</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-7"> PCOS (다낭성난소증후군)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-8"> DUB (호르몬교란에 의한 기능성 자궁출혈)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="reproductive" data-id="v2-repro-ddx-9"> Infectious case (감염성 질환)</label>
+
+  </div>
+</div>
+
+<button class="reset-btn" onclick="resetChecklist('reproductive')">체크리스트 전체 초기화</button>
+</div>
+<div id="tab-hematology" class="tab-content">
+<!-- 혈액및종양 - 멍이 쉽게 듦 (ITP) -->
+
+<!-- 카드 1: 시나리오 정보 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4CB;</span>
+    <span class="card-title">시나리오 정보</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+    <table class="exam-table">
+      <tr><th>항목</th><th>내용</th></tr>
+      <tr><td>환자</td><td>3N세 / 여성 (30대 여성)</td></tr>
+      <tr><td>주호소</td><td>멍이 쉽게 듦 (1주일 전부터)</td></tr>
+      <tr><td>V/S</td><td>모두 정상</td></tr>
+      <tr class="table-highlight"><td>핵심 단서</td><td>1주일 전 감기 앓음 → 이후 멍 발생 (감기 후 면역계 반응으로 ITP 발생)</td></tr>
+      <tr class="table-highlight"><td>최종 진단</td><td><strong>ITP (특발성혈소판감소자반병, Immune Thrombocytopenic Purpura)</strong></td></tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>시나리오 핵심 포인트:</strong> 외상력 없이 자발적으로 발생한 멍 + 1주 전 감기 선행 → ITP 의심.<br>
+      20~40세 여성에서 호발. 감기 후 면역계가 혈소판을 공격하여 혈소판 감소 → 멍/출혈 발생.
+    </div>
+  </div>
+</div>
+
+<!-- 카드 2: 문진 흐름 (모의대본) -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F5E3;</span>
+    <span class="card-title">문진 흐름 (모의대본)</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>문진 순서도</h4>
+    <div class="mermaid">
+graph TD
+  A["인사 및 자기소개<br>환자 정보 확인"] --> B["주호소 확인<br>멍이 잘 들어서 내원"]
+  B --> C["멍 특성 파악<br>발병시기 위치 크기"]
+  C --> D["외상력 확인<br>부딪친 적 있는지"]
+  D --> E["과거 출혈 경험<br>이전 멍 치과 수술"]
+  E --> F["피부 외 출혈 확인<br>잇몸 코피 혈뇨 혈변 생리"]
+  F --> G["최근 감기 여부<br>1주 전 감기 확인"]
+  G --> H["전신질환 감별<br>간질환 신장질환"]
+  H --> I["약물 및 생활습관<br>복용약 술 담배"]
+  I --> J["가족력 확인<br>가족 중 출혈경향"]
+  J --> K["요약 및 확인<br>환자에게 정리 전달"]
+  K --> L["신체진찰 안내<br>진찰 이유 설명"]
+
+  D -->|"외상 없음"| D1["자발성 출혈 의심<br>혈소판 혈관 이상"]
+  G -->|"감기 1주 전"| G1["ITP 강력 의심<br>감기 후 면역 반응"]
+  H -->|"간 신장 정상"| H1["후천적 혈소판<br>감소 가능성"]
+    </div>
+
+    <h4>모의 대화 스크립트</h4>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 안녕하세요. 저는 오늘 진료를 맡은 학생 의사 OOO입니다. 지금부터 10분 정도 진료할 예정인데 괜찮으신가요? 환자분 성함, 생년월일 확인하겠습니다.</p>
+      <p><em>(확인 후) 네 확인되었습니다. 날이 추운데 오시느라 수고 많으셨어요. 병원에 오면 긴장되실 수도 있는데 편하게 말씀해주시면 제가 하나씩 여쭤볼게요.</em></p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 오늘은 어떤 것 때문에 불편해서 오셨을까요? <span class="badge-info">C/C 확인</span></p>
+      <p>환: 멍이 잘 들어서요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 멍이 드신다구요? 많이 놀라셨겠어요. 혹시 언제부터 멍이 드셨을까요? <span class="badge-info">Onset 확인</span></p>
+      <p>환: 일주일 전부터 멍이 들었어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 그렇군요. 혹시 멍든 부위를 보여주실 수 있나요? <span class="badge-info">위치 확인</span></p>
+      <p>환: (팔 다리 옷을 걷어올리며) 팔 다리 양쪽에 하나하나씩 멍듦</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 지금 눈으로 팔 다리에 각각 한 쪽에 멍이 들었는데 맞을까요? 다른 부위에는 멍이 생기신 적이 있을까요?</p>
+      <p>환: 다른 부위에는 없어요. / 여기에도 멍이 들었어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 특별히 부딪친 적도 없는데 멍이 드신 걸까요? <span class="badge-info">외상력 확인 ★</span></p>
+      <p>환: 네, 부딪치지는 않았어요.</p>
+      <p><strong>의:</strong> 넘어진 적도 없으시구요?</p>
+      <p>환: 네 없어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 이전에도 비슷하게 멍 든 적이 있나요? <span class="badge-info">과거 Hx 확인</span></p>
+      <p>환: 없어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 그럼 양치할 때도 피가 많이 나는 증상이 있었을까요? <span class="badge-info">잇몸출혈 확인</span></p>
+      <p>환: 그런 적은 없어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 여성 분이어서 또 여쭤보는데, 생리 양은 보통이신 편인가요? 다른 여성 분과 비교했을 때 <span class="badge-info">생리양 확인</span></p>
+      <p>환: 잘 모르겠어요.</p>
+      <p><strong>의:</strong> 네 확인 감사합니다. 제가 이걸 여쭤본 이유가 혈액 질환을 앓고 있어서 멍이 발생한 경우에는, 일상 생활 정도의 자극에도 출혈이 발생하는 경우가 많아서 여쭤봤어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 추가적인 증상이 있는지에 대해 여쭤볼게요. 혹시 대소변 볼 때 피가 섞여나온 적은 있으세요? <span class="badge-info">동반 출혈 확인</span></p>
+      <p>환: 있어요 / 없어요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 최근에 헌혈 또는 수혈을 하신 적 있으세요?</p>
+      <p>환: 없어요.</p>
+      <p><strong>의:</strong> 최근에 수술 받으신 적은 있으실까요?</p>
+      <p>환: 없어요. 수술 받은 적도 없으시고.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 지금 저랑 진료보기 전에 간호사분께서 간단한 체온이나 혈압을 측정하셨는데, 혹시 이전에 감기 걸린 적 있으세요? <span class="badge-info">최근 감염 확인 ★</span></p>
+      <p>환: 한 일주일 전에 감기 걸렸어요.</p>
+      <p><strong>의:</strong> 일주일 전이면 마침 멍이 든 시기랑 비슷하네요.</p>
+      <p>환: 네 그렇네요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 그 때 처방받으신 약 기억하실까요? 현재 술이나 담배는 하시나요? 그 외에 또 진단받은 질환이 있으신가요? <span class="badge-info">복용약, 술 담배, 동반질환</span></p>
+      <p>환: ~~받았어요. / ~~요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 멍이라는 것에 대해 잠시 말씀드리면, 피부에 출혈이 생겨서 그것이 눈으로 보이는 것이거든요. 그래서 혈액과 관련 인자들을 만드는 장기에 문제가 있어도 멍이 잘 발생할 수 있어요. 혹시 내과에서 간 질환 진단받은 적 있을까요? 신장 질환은요? <span class="badge-info">간 신장 질환 확인 ★</span></p>
+      <p>환: ~~요.</p>
+    </div>
+
+    <div class="script-box">
+      <p><strong>의:</strong> 가족 중에 비슷한 증상을 겪으신 분 계신가요? <span class="badge-info">가족력 확인</span></p>
+      <p>환: 없어요.</p>
+    </div>
+
+    <div class="script-box" style="background: #e8f5e9; border-left-color: #4caf50;">
+      <p><strong>의:</strong> (요약) 그러면 지금까지 말씀한 것을 정리하자면, 이전에는 비슷한 증상을 호소한 적이 없으시고, 일주일 전에 감기를 앓으셨는데 그때부터 마침 멍이 잘 발생하게 되었네요. 특별히 앓고 계신 질환이나 복용 중인 약도 없으시고요. 지금까지 제가 정리한 것에 대해 추가적으로 하실 말씀 있으실까요? <span class="badge-info">요약 및 확인</span></p>
+    </div>
+
+    <div class="script-box" style="background: #e3f2fd; border-left-color: #2196f3;">
+      <p><strong>의:</strong> 제가 생각하는 이유가 있는데, 그게 맞는지 그리고 또 다른 증상이 없는지 확인하기 위해 신체 진찰을 시행할게요. <span class="badge-info">신체진찰 전환</span></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 3: 신체진찰 계획 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1FA7A;</span>
+    <span class="card-title">신체진찰 계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <div class="alert alert-danger">★ wet purpura (입안 점막 출혈) 확인이 가장 중요한 핵심 신체진찰입니다! ★</div>
+
+    <table class="exam-table">
+      <tr><th style="width:5%">#</th><th style="width:25%">진찰 항목</th><th style="width:35%">방법 및 멘트</th><th style="width:35%">목적</th></tr>
+      <tr class="table-highlight">
+        <td><strong>1</strong></td>
+        <td><strong>입안 확인<br>(Wet purpura) ★</strong></td>
+        <td>"입안에 출혈이 있으면 상당히 위험한 신호여서 입안 쪽을 한 번 볼게요."<br>→ "다행히 입안 쪽에는 출혈이 없으시네요."</td>
+        <td><strong>Wet purpura = Warning sign</strong><br>혈소판 감소의 심각도 판단<br>있으면 응급 상황</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>눈 확인<br>(결막, 공막)</td>
+        <td>"계속되는 출혈이 있으면 빈혈 증상이 있을 수 있어서 눈을 확인해보겠습니다. 손소독 진행했고요, 제가 눈꺼풀을 당길테니 잠깐 눈에 힘을 빼주세요."</td>
+        <td>결막 창백 → 빈혈 확인<br>공막 황달 → 간질환 감별</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>림프절 촉진<br>(목 부위)</td>
+        <td>"감기가 걸리셨다고 하셔서 림프절이 혹시 붓지는 않았는지 확인해보겠습니다. 육안 상 보이는 붓기는 없고, 손으로 한 번 목 부위 만져보겠습니다."</td>
+        <td>림프절 종대 → 혈액암, 감염 감별</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>멍 부위 압박 검사<br>(Blanching test)</td>
+        <td>"아까 제가 멍 부위를 눈으로만 봤는데, 제가 눌러보고 만져볼게요. 조금 아프실 수 있는데, 너무 불편하면 말씀해주세요."</td>
+        <td>홍반 vs 자반 감별<br>(아래 표 참조)</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>복부 진찰<br>(비장 촉진)</td>
+        <td>"혈액과 관련된 장기가 비장이어서 비장을 확인하기 위해 복부 진찰을 시행하겠습니다. 베드 위로 이동해서 누워주시겠어요?"<br>"비장은 뒤에 깊숙이 있어서 제가 좀 깊게 누르겠습니다. 숨 크게 들이마시고 참아주세요!"</td>
+        <td>비장비대(Splenomegaly) 확인<br>→ 혈액암, 간경변 감별</td>
+      </tr>
+    </table>
+
+    <h4>비장 촉진 방법</h4>
+    <div class="alert alert-warning">
+      <strong>비장 촉진 테크닉:</strong><br>
+      1. 환자를 눕힌다<br>
+      2. <strong>환자의 왼손으로 Lt. flank를 감싸주게 한다</strong><br>
+      3. 검사자의 오른손으로 Axillary line을 향해 Palpation<br>
+      4. 환자에게 <strong>"숨 크게 들이마시고 참아주세요"</strong> 지시<br>
+      5. 정상적인 경우 촉지가 어려움 → "비장은 정상적으로 만져지고 크기도 특별히 더 커지진 않은 것 같네요."
+    </div>
+
+    <h4>Blanching Test 결과 해석</h4>
+    <table class="exam-table">
+      <tr><th></th><th>홍반 (Erythema)</th><th>자반/멍 (Purpura/Ecchymosis)</th></tr>
+      <tr>
+        <td><strong>눌렀을 때</strong></td>
+        <td>색이 하얗게 변했다가 (Blanching) 떼면 다시 붉어짐</td>
+        <td><strong>색이 변하지 않음 (Non-blanching)</strong></td>
+      </tr>
+      <tr>
+        <td><strong>원리</strong></td>
+        <td>혈관 확장일 뿐이므로</td>
+        <td>혈관 밖으로 적혈구가 빠져나와 착색된 상태</td>
+      </tr>
+      <tr>
+        <td><strong>촉감</strong></td>
+        <td>-</td>
+        <td>Non-palpable (평평)</td>
+      </tr>
+    </table>
+
+    <div class="alert alert-warning">
+      <strong>혈관염 감별:</strong> 멍 부위가 <strong>오돌토돌하거나 융기(palpable)</strong>되어 있으면 혈관염 의심. 평평하면(non-palpable) 혈관염 가능성 낮음.
+    </div>
+
+    <div class="script-box" style="background: #e3f2fd; border-left-color: #2196f3;">
+      <p><strong>의:</strong> (Blanching test 후) 눌렀을 때 색이 변화가 없어서, 단순 혈관 확장이 아니라 멍이 맞구요. 멍든 부위가 오돌토돌하거나 융기되어 있으면 혈관염인데, 그런 부분은 보이지 않고 평평해서 혈관염은 아닌 것 같습니다.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 4: 감별진단 및 검사/치료 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F9EA;</span>
+    <span class="card-title">감별진단 및 검사/치료계획</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>감별진단 (DDx)</h4>
+    <table class="exam-table">
+      <tr><th>진단</th><th>특징</th><th>감별 포인트</th></tr>
+      <tr class="table-highlight">
+        <td><strong>ITP<br>(특발성혈소판감소자반병) ★</strong></td>
+        <td>20-40세 여성 호발<br>감기 후 면역반응으로 혈소판 파괴<br>Isolated thrombocytopenia</td>
+        <td><strong>가장 유력한 진단</strong><br>감기 1주 전 + 자발성 멍<br>외상력 없음, 가족력 없음</td>
+      </tr>
+      <tr>
+        <td>혈관염<br>(Autoimmune vasculitis)</td>
+        <td>피부 병변이 palpable purpura<br>관절통, 자가면역 증상 동반</td>
+        <td>멍 부위 융기(palpable) 여부<br>관절통, 광과민성 확인</td>
+      </tr>
+      <tr>
+        <td>간질환에 의한 출혈</td>
+        <td>간경변 → 응고인자 합성 저하<br>비장비대, 황달 동반</td>
+        <td>음주력, 공막황달<br>비장비대 촉진</td>
+      </tr>
+      <tr>
+        <td>혈액암<br>(백혈병, MDS, 림프종)</td>
+        <td>범혈구감소증<br>림프절종대, 비장비대</td>
+        <td>림프절 촉진, 비장 촉진<br>CBC에서 다른 혈구도 감소</td>
+      </tr>
+      <tr>
+        <td>약물 유발 혈소판감소</td>
+        <td>아스피린, 소염진통제,<br>항응고제, 항생제 등</td>
+        <td>약물 복용력 확인</td>
+      </tr>
+      <tr>
+        <td>von Willebrand 병</td>
+        <td>선천성 응고인자 이상<br>어릴 때부터 출혈 경향</td>
+        <td>가족력, 과거 출혈 경험<br>어릴 때 증상 유무</td>
+      </tr>
+      <tr>
+        <td>혈우병 (Hemophilia)</td>
+        <td>선천성, 관절/근육 내 출혈<br>주로 남성</td>
+        <td>여성이므로 가능성 낮음<br>관절 출혈 패턴</td>
+      </tr>
+    </table>
+
+    <h4>출혈 패턴에 따른 원인 감별</h4>
+    <table class="exam-table">
+      <tr><th>출혈 패턴</th><th>의심 원인</th></tr>
+      <tr><td>외상 후 단일 멍 (Single ecchymosis)</td><td>정상 반응 (Bleeding tendency 가능성 낮음)</td></tr>
+      <tr class="table-highlight"><td><strong>피부/점막 자발성 출혈</strong></td><td><strong>혈소판 이상 또는 혈관 이상 → ITP 의심</strong></td></tr>
+      <tr><td>관절, 근육, 복강 내 출혈/혈종</td><td>응고인자 결핍 (혈우병 등)</td></tr>
+    </table>
+
+    <h4>필요 검사</h4>
+    <table class="exam-table">
+      <tr><th>검사</th><th>목적</th><th>예상 결과 (ITP)</th></tr>
+      <tr class="table-highlight">
+        <td><strong>CBC with morphology</strong></td>
+        <td>혈소판 수 확인, 다른 혈구 이상 감별</td>
+        <td><strong>Isolated thrombocytopenia</strong><br>(혈소판만 감소, 나머지 정상)</td>
+      </tr>
+      <tr>
+        <td>혈소판 기능 검사</td>
+        <td>혈소판 기능 이상 감별</td>
+        <td>기능은 정상</td>
+      </tr>
+      <tr>
+        <td>PT / aPTT</td>
+        <td>응고인자 이상 감별</td>
+        <td>정상 (이상 시 Mixing test 추가)</td>
+      </tr>
+      <tr>
+        <td>간기능 / 신장기능 검사</td>
+        <td>간, 신장 질환에 의한 출혈 감별</td>
+        <td>정상</td>
+      </tr>
+    </table>
+
+    <h4>치료계획</h4>
+    <table class="exam-table">
+      <tr><th>순위</th><th>치료</th><th>내용</th></tr>
+      <tr class="table-highlight">
+        <td><strong>1차</strong></td>
+        <td><strong>Glucocorticosteroid (TOC)</strong></td>
+        <td>Prednisolone 1mg/kg/day<br>또는 Dexamethasone 40mg/day</td>
+      </tr>
+      <tr>
+        <td>2차</td>
+        <td>IV Immunoglobulin</td>
+        <td>스테로이드 불응 시</td>
+      </tr>
+      <tr>
+        <td>2차</td>
+        <td>TPO receptor agonist</td>
+        <td>Romiplostim, Eltrombopag</td>
+      </tr>
+      <tr>
+        <td>2차</td>
+        <td>Rituximab</td>
+        <td>단일클론항체 치료</td>
+      </tr>
+      <tr>
+        <td>응급</td>
+        <td>혈소판 수혈</td>
+        <td>일반적으로 시행하지 않으나,<br>심각한 장기출혈(뇌출혈, 위장관출혈, 폐출혈) 시 시행</td>
+      </tr>
+    </table>
+
+    <h4>퇴장 후 입력용 정리</h4>
+    <div class="alert alert-warning">
+      <strong>예상 진단 2가지:</strong><br>
+      1. <strong>ITP (특발성혈소판감소자반병)</strong> ← 1순위<br>
+      2. 약물 유발 혈소판감소증 또는 혈관염<br><br>
+      <strong>치료계획 4가지:</strong><br>
+      1. CBC를 포함한 혈액검사 시행<br>
+      2. 간기능, 신장기능 검사 시행<br>
+      3. 스테로이드 투여 (Prednisolone 1mg/kg/day)<br>
+      4. 이상 출혈 발생 시 즉시 내원 교육 및 경과 관찰
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 5: 환자 설명 및 교육 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x1F4AC;</span>
+    <span class="card-title">환자 설명 및 교육</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>진단 설명 멘트</h4>
+    <div class="script-box" style="background: #e8f5e9; border-left-color: #4caf50;">
+      <p><strong>의:</strong> 신체 진찰은 끝났어요. 갑작스럽게 멍이 들어서 놀랐을텐데요, 문진과 신체 검진을 종합했을 때 가장 의심되는 것은 <strong>특발성혈소판감소자반병(ITP)</strong>입니다.</p>
+      <p><strong>의:</strong> ITP의 경우, <strong>20-40세 여성</strong>에서 실제로 많이 발병하고, 아주 드물게 소아 외 성인에서도 <strong>감기 걸린 후 면역계가 싸우면서</strong> 발생을 하게 됩니다. 이 질환은 혈액 응고에 관여하는 <strong>혈소판이 정상인보다 감소</strong>하는 질환입니다.</p>
+    </div>
+
+    <h4>검사 설명 멘트</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 지금까지 제가 내린 진단은 모두 문진만으로 시행된 것이라 추가로 <strong>혈액검사</strong>를 잡아드리고자 하는데 괜찮으실까요? 결막이 창백하지는 않아서 빈혈이 의심되지는 않은데, 정확한 검사 결과를 보고 추가적인 이상이 없는지 확인해야 할 것 같아요.</p>
+    </div>
+
+    <h4>환자 교육</h4>
+    <div class="alert alert-danger">★ wet purpura = 위험 신호! 즉시 병원 내원 교육 ★</div>
+
+    <div class="script-box" style="background: #fff3e0; border-left-color: #ff9800;">
+      <p><strong>의:</strong> 혹여라도 <strong>코피나 잇몸출혈</strong> 등 이상 출혈이 있을 시에는 지금처럼 병원에 꼭 내원해주셔야 해요.</p>
+      <p><strong>의:</strong> 특히 <strong>입안 점막에 보라색 반점(wet purpura)</strong>이 생기면 이것은 매우 위험한 경고 신호이므로, <strong>응급으로 즉시 병원에 내원</strong>하셔야 합니다.</p>
+      <p><strong>의:</strong> 좀 무섭게 들릴 수 있지만, 생각보다 흔한 질환이고, <strong>감기 증상이 호전되면 다시 혈소판 수치가 정상으로 돌아올 수 있어서</strong> 너무 미리 걱정할 필요는 없습니다.</p>
+      <p><strong>의:</strong> 당분간 <strong>격한 운동은 자제</strong>해 주시고, 출혈이 심할 때는 바로 내원해 주세요.</p>
+    </div>
+
+    <h4>마무리 멘트</h4>
+    <div class="script-box">
+      <p><strong>의:</strong> 혹시 더 궁금하신 점 없으신가요? 제가 설명드린 내용은 이해가 되셨나요? <span class="badge-info">이해 확인</span></p>
+      <p><strong>의:</strong> 네, 오늘 진료 여기서 마무리하겠습니다. 수고하셨습니다. <span class="badge-info">마무리 인사</span></p>
+      <p><em>(★ 반드시 종료 직전 손소독제 사용 ★)</em></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- 카드 6: 자가채점 체크리스트 -->
+<div class="card">
+  <div class="card-header" onclick="toggleCard(this)">
+    <span class="card-icon">&#x2705;</span>
+    <span class="card-title">자가채점 체크리스트</span>
+    <span class="card-toggle">&#9660;</span>
+  </div>
+  <div class="card-body">
+
+    <h4>병력청취 (History Taking)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-1"> 멍의 발병양상 확인 (급성/만성, 지속기간)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-2"> 멍의 발생상황 확인 (자발적 발생 여부 - 외상력 없음 ★)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-3"> 멍의 위치, 크기 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-4"> 과거 출혈 경험 확인 (상처, 발치, 생리, 출산, 수술, 코피)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-5"> 피부 이외 다른 부위 출혈 경험 확인 (혈뇨, 혈변, 점막 touch bleeding, 관절)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-6"> 전신질환 감별 질문 (간질환, 신장질환 ★, 종양, 갑상선질환)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-7"> 갑상선(추위/더위), 햇볕 민감(자가면역), 극심한 다이어트(영양실조) 등 증상으로 전신질환 감별</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-8"> 가족력 확인 (가족 중 출혈 경향 기왕력)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-9"> 약물 복용력 확인 (아스피린, 소염진통제, 항응고제, 혈전용해제, 항생제, 피임약)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-10"> 과거 수혈 경력 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-11"> 최근 감기 등 선행 감염 확인 (ITP 핵심 단서 ★)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-hx-12"> 술/담배 습관 확인</label>
+
+    <h4>신체진찰 (Physical Examination)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-1"> 몸 전체를 살펴서 멍의 존재 유무와 위치 파악</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-2"> 멍이 든 부위를 눌러봄 (Blanching test - Non-blanching 확인)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-3"> 눈 관찰 (결막 - 빈혈, 공막 - 황달)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-4"> 복부 진찰 (Splenomegaly 확인)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-5"> 림프절 진찰 (목 부위, 겨드랑이, 사타구니)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-6"> 손 및 무릎 관절 관찰</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-7"> 피부 상태 진찰 (건조, 지나치게 늘어나는지)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-pe-8"> 입안 확인 (Wet purpura 확인 ★ - 위험 신호)</label>
+
+    <h4>환자교육 및 설명</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-1"> ITP 진단명 설명 (특발성혈소판감소자반병)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-2"> 질환 기전 설명 (감기 후 면역계 반응 → 혈소판 감소)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-3"> 혈액검사 필요성 설명 및 동의 구하기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-4"> 이상 출혈 발생 시 즉시 내원 교육</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-5"> Wet purpura 위험 신호 교육 (응급 내원)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-6"> 격한 운동 자제 교육</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-7"> 예후 안심 (감기 호전 시 혈소판 정상 회복 가능)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-8"> 설명 이해 여부 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-edu-9"> 추가 질문 여부 확인</label>
+
+    <h4>의사소통 / 환자-의사 관계 (공통)</h4>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-1"> 자기소개 (인사, 신분, 이름)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-2"> 일상대화로 진료 시작 (긴장, 두려움 감소)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-3"> 질문을 한번에 한 가지씩</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-4"> 환자 말 가로채지 않기</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-5"> 적절한 진료 속도</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-6"> 경청 태도 (눈맞춤, 적정 거리, 바른 자세, 단정한 복장)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-7"> 진료 중반 이후 요약 전달</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-8"> 요약 후 정확한지, 추가 사항 있는지 확인</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-9"> 의학 용어 사용하지 않기 (쉬운 말로 설명)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-10"> 환자의 걱정과 감정에 공감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-11"> 향후 치료계획 시 환자 의견 반영</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-12"> 의학적 자신감 표현</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-13"> 신체진찰 전후 손 소독제 사용 (★ 종료 직전 반드시 ★)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-14"> 신체진찰 시 불편/불쾌하지 않도록 배려 (노출 양해, 시트 덮기)</label>
+    <label class="checklist-label"><input type="checkbox" class="checklist-item" data-case="hematology" data-id="v2-hemato-comm-15"> 신체진찰 전 설명 (어떤 진찰, 왜 하는지, 어떤 방식으로)</label>
+
+  </div>
+</div>
+<button class="reset-btn" onclick="resetChecklist('hematology')">체크리스트 전체 초기화</button>
+</div>
+</main>
+<script>
+
+// ==== Mermaid ====
+mermaid.initialize({ startOnLoad: false, theme: 'neutral', securityLevel: 'loose' });
+
+// ==== Tab Switching ====
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(function(el) { el.classList.remove('active'); });
+  document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+  var target = document.getElementById(tabId);
+  if (target) target.classList.add('active');
+  var btn = document.querySelector('.tab-btn[data-tab="'+tabId+'"]');
+  if (btn) btn.classList.add('active');
+  // Render mermaid in newly visible tab
+  setTimeout(function() { renderMermaidIn(target); }, 80);
+  // Scroll tab button into view
+  if (btn) btn.scrollIntoView({ behavior:'smooth', inline:'center', block:'nearest' });
+}
+
+function renderMermaidIn(container) {
+  if (!container) return;
+  var nodes = container.querySelectorAll('.mermaid:not([data-processed])');
+  if (nodes.length > 0) {
+    mermaid.run({ nodes: Array.from(nodes) }).catch(function(e) { console.warn('Mermaid render error:', e); });
+  }
+}
+
+// ==== Card Toggle ====
+function toggleCard(header) {
+  var body = header.nextElementSibling;
+  if (!body) return;
+  if (body.classList.contains('collapsed')) {
+    body.classList.remove('collapsed');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    header.classList.remove('collapsed');
+    setTimeout(function() { body.style.maxHeight = 'none'; }, 400);
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    body.offsetHeight; // force reflow
+    body.classList.add('collapsed');
+    body.style.maxHeight = '0';
+    header.classList.add('collapsed');
+  }
+}
+
+// ==== Checklist Persistence ====
+function getCheckKey(cb) {
+  return 'cpx-checklist-' + (cb.dataset.case||'x') + '-' + (cb.dataset.id||'x');
+}
+
+function saveCheck(cb) {
+  try { localStorage.setItem(getCheckKey(cb), cb.checked ? '1' : '0'); } catch(e){}
+  var label = cb.closest('.checklist-label');
+  if (label) { if (cb.checked) label.classList.add('checked'); else label.classList.remove('checked'); }
+}
+
+function restoreChecks() {
+  document.querySelectorAll('.checklist-item').forEach(function(cb) {
+    try {
+      var val = localStorage.getItem(getCheckKey(cb));
+      if (val === '1') {
+        cb.checked = true;
+        var label = cb.closest('.checklist-label');
+        if (label) label.classList.add('checked');
+      }
+    } catch(e){}
+  });
+}
+
+function resetChecklist(caseName) {
+  document.querySelectorAll('.checklist-item[data-case="'+caseName+'"]').forEach(function(cb) {
+    cb.checked = false;
+    try { localStorage.removeItem(getCheckKey(cb)); } catch(e){}
+    var label = cb.closest('.checklist-label');
+    if (label) label.classList.remove('checked');
+  });
+}
+
+// ==== Init ====
+document.addEventListener('DOMContentLoaded', function() {
+  // Attach checkbox listeners
+  document.querySelectorAll('.checklist-item').forEach(function(cb) {
+    cb.addEventListener('change', function() { saveCheck(this); });
+  });
+  restoreChecks();
+
+  // Attach tab listeners
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() { switchTab(this.dataset.tab); });
+  });
+
+  // Initial mermaid render: briefly show all tabs, render, then hide
+  var tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(function(t) { t.style.display = 'block'; t.style.visibility = 'hidden'; t.style.position = 'absolute'; });
+  setTimeout(function() {
+    mermaid.run().then(function() {
+      tabs.forEach(function(t) { t.style.display = ''; t.style.visibility = ''; t.style.position = ''; });
+      // Show default tab
+      switchTab('tab-summary');
+    }).catch(function(e) {
+      console.warn('Mermaid init error:', e);
+      tabs.forEach(function(t) { t.style.display = ''; t.style.visibility = ''; t.style.position = ''; });
+      switchTab('tab-summary');
+    });
+  }, 100);
+});
+
+</script>
+</body>
+</html>
