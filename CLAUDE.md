@@ -107,3 +107,37 @@ Mermaid v10에서 아래 패턴은 "Syntax error in text" 파싱 에러를 유�
 
 ## 출력
 생성된 결과물이나 출력은 ./outputs 폴더에 저장할 것
+
+# 배포 (GitHub Pages)
+
+## 리포지토리 정보
+- GitHub: https://github.com/waterple/CPX_Study
+- Pages URL: https://waterple.github.io/CPX_Study/
+- 브랜치: `main`, Pages 소스: `/` (루트)
+
+## 디렉토리 구조
+```
+CPX_Study/
+├── index.html              ← 정리본 목록 페이지 (루트)
+├── YYYY-MM-DD/
+│   └── index.html          ← 해당 날짜의 정리본
+├── outputs/
+│   └── CPX_YYYYMMDD.html   ← 원본 출력물 보관
+├── data/                   ← .gitignore 제외 (강의자료 원본)
+├── CLAUDE.md
+└── .gitignore
+```
+
+## 새 정리본 추가 시 작업 순서
+1. `data/` 폴더에 새 자료를 추가하거나 기존 자료를 수정한다
+2. 정리본을 생성하여 `outputs/CPX_YYYYMMDD.html`로 저장한다
+3. `YYYY-MM-DD/index.html`에 동일 파일을 복사한다
+4. 루트 `index.html`의 목록에 새 날짜 항목을 추가한다
+5. 변경 파일을 커밋하고 `main` 브랜치에 푸시한다
+
+## Git 규칙
+- **커밋 전 확인**: `data/` 폴더가 `.gitignore`에 의해 제외되고 있는지 반드시 확인할 것 (강의자료 저작권 보호)
+- **커밋 단위**: 정리본 추가/수정 시 관련 파일(`YYYY-MM-DD/index.html`, `outputs/CPX_YYYYMMDD.html`, `index.html`)을 한 커밋으로 묶는다
+- **커밋 메시지 형식**: `YYYY-MM-DD 정리본 추가` 또는 `YYYY-MM-DD 정리본 수정: (변경 내용)`
+- **푸시**: 커밋 후 `git push origin main`으로 푸시하면 GitHub Pages가 자동 배포된다
+- **강제 푸시 금지**: `git push --force` 사용 금지
