@@ -7,6 +7,14 @@ outputs/temp/
 # 스크립트
 scripts/
 
+# DOCX 출력물 (git 제외)
+outputs/*.docx
+
+# Node.js
+node_modules/
+package.json
+package-lock.json
+
 # 시스템 파일
 .DS_Store
 Thumbs.db
